@@ -1,0 +1,73 @@
+user:
+- id (int, primary key)
+- email (string)
+- name (string)
+- pic (string)
+- role (int)                         -- เช่น 0=buyer, 1=seller
+- enabled (boolean)
+- address (string)
+- phone (string)
+- createdAt (datetime)
+- updatedAt (datetime)
+
+
+category:
+- id (int, primary key)
+- name (string)
+
+
+product:
+- id (int, primary key)
+- name (string)
+- size (string)
+- description (text)
+- condition_ (float)                -- คิดเป็นเปอร์เซ็นต์ เช่น 95.0
+- starting_price (float)
+- category_id (int, foreign key)
+- status (boolean)                  -- true = เปิดประมูล, false = ปิด
+- start_date (datetime)
+- end_date (datetime)
+
+imageProduct:
+- id (int, primary key)
+- asset_id (string)
+- public_id (string)
+- url (string)
+- secure_url (string)
+- product_id (int)
+- createdAt (datetime)
+- updatedAt (datetime)
+
+
+cart:
+- id (int, primary key)
+- product_id (int, foreign key)
+- user_id (int, foreign key)
+- final_price_product (float)
+- dueDate (datetime)               -- วัน/เวลาสิ้นสุดที่ต้องชำระเงินภายใน
+- cartprice (float)
+- createdAt (datetime)
+- updatedAt (datetime)
+
+
+
+Auctioneer_Board:
+- id (int, primary key)
+- user_id (int, foreign key)
+- product_id (int, foreign key)
+- price_offer (float)
+- createdAt (datetime)
+- updatedAt (datetime)
+
+
+order:
+- id (int, primary key)
+- user_id (int, foreign key)
+- cart_id (int, foreign key)
+- final_price_product (float)
+- cartTotal (float)
+- address (string)
+- orderStatus (int)                 -- 0 = pending, 1 = paid, etc.
+- paymentType (int)                 -- 0 = cod, 1 = transfer
+- createdAt (datetime)
+- updatedAt (datetime)

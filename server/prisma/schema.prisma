@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String?
+  name      String?
+  picture   String?
+  role      Int
+  enabled   Boolean
+  address   String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  carts            Cart[]
+  auctioneerBoards Auctioneer_Board[]
+  orders           Order[]
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
+}
+
+model Product {
+  id                    Int      @id @default(autoincrement())
+  name                  String
+  size                  String
+  description           String
+  condition             Float
+  description_condition String?
+  starting_price        Float
+  category_id           Int
+  status                Boolean
+  start_date            DateTime
+  end_date              DateTime
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  category         Category           @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  images           ImageProduct[]
+  carts            Cart[]
+  auctioneerBoards Auctioneer_Board[]
+  orders           Order[]
+}
+
+model ImageProduct {
+  id         Int      @id @default(autoincrement())
+  asset_id   String
+  public_id  String
+  url        String
+  secure_url String
+  product_id Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+}
+
+model Cart {
+  id                  Int      @id @default(autoincrement())
+  product_id          Int      @unique
+  user_id             Int
+  final_price_product Float
+  dueDate             DateTime
+  cartprice           Float
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  product             Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  user                User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+}
+
+model Auctioneer_Board {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  product_id  Int
+  price_offer Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id                  Int      @id @default(autoincrement())
+  user_id             Int
+  product_id          Int
+  final_price_product Float
+  total_price         Float
+  address             String
+  phone               String
+  orderStatus         Int
+  paymentType         Int
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade) //when the product is deleted, set the product_id to null
+}
