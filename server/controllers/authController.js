@@ -49,7 +49,9 @@ exports.LoginGoogle = async (req, res) => {
                     email,
                     name,
                     picture,
-                    role: 0, // Default role for new users
+                    role: 2, // Default role for new users
+                    type_account: 2, // Google account
+                    enabled: true, // Default enabled status
                 },
             });
         }
@@ -78,6 +80,7 @@ exports.CurrentUser = async (req, res) => {
                 enabled: true,
                 address: true,
                 phone: true,
+
             },
         });
 
@@ -118,6 +121,7 @@ exports.Register = async (req, res) => {
                 enabled,
                 address,
                 phone,
+                type_account: 1, // Default type for regular users
             },
         });
 

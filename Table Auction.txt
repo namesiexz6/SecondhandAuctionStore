@@ -7,6 +7,7 @@ user:
 - enabled (boolean)
 - address (string)
 - phone (string)
+- type_account (int)
 - createdAt (datetime)
 - updatedAt (datetime)
 
@@ -23,6 +24,7 @@ product:
 - description (text)
 - condition_ (float)                -- คิดเป็นเปอร์เซ็นต์ เช่น 95.0
 - starting_price (float)
+- min_bid_price (float)
 - category_id (int, foreign key)
 - status (boolean)                  -- true = เปิดประมูล, false = ปิด
 - start_date (datetime)

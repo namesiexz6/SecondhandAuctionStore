@@ -15,17 +15,18 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String?
-  name      String?
-  picture   String?
-  role      Int
-  enabled   Boolean
-  address   String?
-  phone     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password     String?
+  name         String?
+  picture      String?
+  role         Int
+  enabled      Boolean
+  address      String?
+  phone        String?
+  type_account Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   carts            Cart[]
   auctioneerBoards Auctioneer_Board[]
@@ -46,10 +47,13 @@ model Product {
   condition             Float
   description_condition String?
   starting_price        Float
+  min_bid_price         Float
   category_id           Int
   status                Boolean
   start_date            DateTime
   end_date              DateTime
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 
   category         Category           @relation(fields: [category_id], references: [id], onDelete: Cascade)
   images           ImageProduct[]

@@ -1511,11 +1511,13 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     id: number | null
     role: number | null
+    type_account: number | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
     role: number | null
+    type_account: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1528,6 +1530,7 @@ export namespace Prisma {
     enabled: boolean | null
     address: string | null
     phone: string | null
+    type_account: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1542,6 +1545,7 @@ export namespace Prisma {
     enabled: boolean | null
     address: string | null
     phone: string | null
+    type_account: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -1556,6 +1560,7 @@ export namespace Prisma {
     enabled: number
     address: number
     phone: number
+    type_account: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1565,11 +1570,13 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     id?: true
     role?: true
+    type_account?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
     role?: true
+    type_account?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1582,6 +1589,7 @@ export namespace Prisma {
     enabled?: true
     address?: true
     phone?: true
+    type_account?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1596,6 +1604,7 @@ export namespace Prisma {
     enabled?: true
     address?: true
     phone?: true
+    type_account?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -1610,6 +1619,7 @@ export namespace Prisma {
     enabled?: true
     address?: true
     phone?: true
+    type_account?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1711,6 +1721,7 @@ export namespace Prisma {
     enabled: boolean
     address: string | null
     phone: string | null
+    type_account: number
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1744,6 +1755,7 @@ export namespace Prisma {
     enabled?: boolean
     address?: boolean
     phone?: boolean
+    type_account?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     carts?: boolean | User$cartsArgs<ExtArgs>
@@ -1764,11 +1776,12 @@ export namespace Prisma {
     enabled?: boolean
     address?: boolean
     phone?: boolean
+    type_account?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "picture" | "role" | "enabled" | "address" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "name" | "picture" | "role" | "enabled" | "address" | "phone" | "type_account" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     carts?: boolean | User$cartsArgs<ExtArgs>
     auctioneerBoards?: boolean | User$auctioneerBoardsArgs<ExtArgs>
@@ -1793,6 +1806,7 @@ export namespace Prisma {
       enabled: boolean
       address: string | null
       phone: string | null
+      type_account: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -2176,6 +2190,7 @@ export namespace Prisma {
     readonly enabled: FieldRef<"User", 'Boolean'>
     readonly address: FieldRef<"User", 'String'>
     readonly phone: FieldRef<"User", 'String'>
+    readonly type_account: FieldRef<"User", 'Int'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -3583,6 +3598,7 @@ export namespace Prisma {
     id: number | null
     condition: number | null
     starting_price: number | null
+    min_bid_price: number | null
     category_id: number | null
   }
 
@@ -3590,6 +3606,7 @@ export namespace Prisma {
     id: number | null
     condition: number | null
     starting_price: number | null
+    min_bid_price: number | null
     category_id: number | null
   }
 
@@ -3601,10 +3618,13 @@ export namespace Prisma {
     condition: number | null
     description_condition: string | null
     starting_price: number | null
+    min_bid_price: number | null
     category_id: number | null
     status: boolean | null
     start_date: Date | null
     end_date: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ProductMaxAggregateOutputType = {
@@ -3615,10 +3635,13 @@ export namespace Prisma {
     condition: number | null
     description_condition: string | null
     starting_price: number | null
+    min_bid_price: number | null
     category_id: number | null
     status: boolean | null
     start_date: Date | null
     end_date: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ProductCountAggregateOutputType = {
@@ -3629,10 +3652,13 @@ export namespace Prisma {
     condition: number
     description_condition: number
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: number
     start_date: number
     end_date: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3641,6 +3667,7 @@ export namespace Prisma {
     id?: true
     condition?: true
     starting_price?: true
+    min_bid_price?: true
     category_id?: true
   }
 
@@ -3648,6 +3675,7 @@ export namespace Prisma {
     id?: true
     condition?: true
     starting_price?: true
+    min_bid_price?: true
     category_id?: true
   }
 
@@ -3659,10 +3687,13 @@ export namespace Prisma {
     condition?: true
     description_condition?: true
     starting_price?: true
+    min_bid_price?: true
     category_id?: true
     status?: true
     start_date?: true
     end_date?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ProductMaxAggregateInputType = {
@@ -3673,10 +3704,13 @@ export namespace Prisma {
     condition?: true
     description_condition?: true
     starting_price?: true
+    min_bid_price?: true
     category_id?: true
     status?: true
     start_date?: true
     end_date?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ProductCountAggregateInputType = {
@@ -3687,10 +3721,13 @@ export namespace Prisma {
     condition?: true
     description_condition?: true
     starting_price?: true
+    min_bid_price?: true
     category_id?: true
     status?: true
     start_date?: true
     end_date?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3788,10 +3825,13 @@ export namespace Prisma {
     condition: number
     description_condition: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date
     end_date: Date
+    createdAt: Date
+    updatedAt: Date
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -3821,10 +3861,13 @@ export namespace Prisma {
     condition?: boolean
     description_condition?: boolean
     starting_price?: boolean
+    min_bid_price?: boolean
     category_id?: boolean
     status?: boolean
     start_date?: boolean
     end_date?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
     carts?: boolean | Product$cartsArgs<ExtArgs>
@@ -3843,13 +3886,16 @@ export namespace Prisma {
     condition?: boolean
     description_condition?: boolean
     starting_price?: boolean
+    min_bid_price?: boolean
     category_id?: boolean
     status?: boolean
     start_date?: boolean
     end_date?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "size" | "description" | "condition" | "description_condition" | "starting_price" | "category_id" | "status" | "start_date" | "end_date", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "size" | "description" | "condition" | "description_condition" | "starting_price" | "min_bid_price" | "category_id" | "status" | "start_date" | "end_date" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     images?: boolean | Product$imagesArgs<ExtArgs>
@@ -3876,10 +3922,13 @@ export namespace Prisma {
       condition: number
       description_condition: string | null
       starting_price: number
+      min_bid_price: number
       category_id: number
       status: boolean
       start_date: Date
       end_date: Date
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -4261,10 +4310,13 @@ export namespace Prisma {
     readonly condition: FieldRef<"Product", 'Float'>
     readonly description_condition: FieldRef<"Product", 'String'>
     readonly starting_price: FieldRef<"Product", 'Float'>
+    readonly min_bid_price: FieldRef<"Product", 'Float'>
     readonly category_id: FieldRef<"Product", 'Int'>
     readonly status: FieldRef<"Product", 'Boolean'>
     readonly start_date: FieldRef<"Product", 'DateTime'>
     readonly end_date: FieldRef<"Product", 'DateTime'>
+    readonly createdAt: FieldRef<"Product", 'DateTime'>
+    readonly updatedAt: FieldRef<"Product", 'DateTime'>
   }
     
 
@@ -8809,6 +8861,7 @@ export namespace Prisma {
     enabled: 'enabled',
     address: 'address',
     phone: 'phone',
+    type_account: 'type_account',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8832,10 +8885,13 @@ export namespace Prisma {
     condition: 'condition',
     description_condition: 'description_condition',
     starting_price: 'starting_price',
+    min_bid_price: 'min_bid_price',
     category_id: 'category_id',
     status: 'status',
     start_date: 'start_date',
-    end_date: 'end_date'
+    end_date: 'end_date',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -9017,6 +9073,7 @@ export namespace Prisma {
     enabled?: BoolFilter<"User"> | boolean
     address?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    type_account?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     carts?: CartListRelationFilter
@@ -9034,6 +9091,7 @@ export namespace Prisma {
     enabled?: SortOrder
     address?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    type_account?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     carts?: CartOrderByRelationAggregateInput
@@ -9055,6 +9113,7 @@ export namespace Prisma {
     enabled?: BoolFilter<"User"> | boolean
     address?: StringNullableFilter<"User"> | string | null
     phone?: StringNullableFilter<"User"> | string | null
+    type_account?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     carts?: CartListRelationFilter
@@ -9072,6 +9131,7 @@ export namespace Prisma {
     enabled?: SortOrder
     address?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
+    type_account?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -9094,6 +9154,7 @@ export namespace Prisma {
     enabled?: BoolWithAggregatesFilter<"User"> | boolean
     address?: StringNullableWithAggregatesFilter<"User"> | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    type_account?: IntWithAggregatesFilter<"User"> | number
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -9152,10 +9213,13 @@ export namespace Prisma {
     condition?: FloatFilter<"Product"> | number
     description_condition?: StringNullableFilter<"Product"> | string | null
     starting_price?: FloatFilter<"Product"> | number
+    min_bid_price?: FloatFilter<"Product"> | number
     category_id?: IntFilter<"Product"> | number
     status?: BoolFilter<"Product"> | boolean
     start_date?: DateTimeFilter<"Product"> | Date | string
     end_date?: DateTimeFilter<"Product"> | Date | string
+    createdAt?: DateTimeFilter<"Product"> | Date | string
+    updatedAt?: DateTimeFilter<"Product"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ImageProductListRelationFilter
     carts?: CartListRelationFilter
@@ -9171,10 +9235,13 @@ export namespace Prisma {
     condition?: SortOrder
     description_condition?: SortOrderInput | SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
     status?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     category?: CategoryOrderByWithRelationInput
     images?: ImageProductOrderByRelationAggregateInput
     carts?: CartOrderByRelationAggregateInput
@@ -9194,10 +9261,13 @@ export namespace Prisma {
     condition?: FloatFilter<"Product"> | number
     description_condition?: StringNullableFilter<"Product"> | string | null
     starting_price?: FloatFilter<"Product"> | number
+    min_bid_price?: FloatFilter<"Product"> | number
     category_id?: IntFilter<"Product"> | number
     status?: BoolFilter<"Product"> | boolean
     start_date?: DateTimeFilter<"Product"> | Date | string
     end_date?: DateTimeFilter<"Product"> | Date | string
+    createdAt?: DateTimeFilter<"Product"> | Date | string
+    updatedAt?: DateTimeFilter<"Product"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     images?: ImageProductListRelationFilter
     carts?: CartListRelationFilter
@@ -9213,10 +9283,13 @@ export namespace Prisma {
     condition?: SortOrder
     description_condition?: SortOrderInput | SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
     status?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -9235,10 +9308,13 @@ export namespace Prisma {
     condition?: FloatWithAggregatesFilter<"Product"> | number
     description_condition?: StringNullableWithAggregatesFilter<"Product"> | string | null
     starting_price?: FloatWithAggregatesFilter<"Product"> | number
+    min_bid_price?: FloatWithAggregatesFilter<"Product"> | number
     category_id?: IntWithAggregatesFilter<"Product"> | number
     status?: BoolWithAggregatesFilter<"Product"> | boolean
     start_date?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     end_date?: DateTimeWithAggregatesFilter<"Product"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
   }
 
   export type ImageProductWhereInput = {
@@ -9554,6 +9630,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     carts?: CartCreateNestedManyWithoutUserInput
@@ -9571,6 +9648,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
@@ -9587,6 +9665,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUpdateManyWithoutUserNestedInput
@@ -9604,6 +9683,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
@@ -9621,6 +9701,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9634,6 +9715,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9648,6 +9730,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9695,9 +9778,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ImageProductCreateNestedManyWithoutProductInput
     carts?: CartCreateNestedManyWithoutProductInput
@@ -9713,10 +9799,13 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
     carts?: CartUncheckedCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardUncheckedCreateNestedManyWithoutProductInput
@@ -9730,9 +9819,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ImageProductUpdateManyWithoutProductNestedInput
     carts?: CartUpdateManyWithoutProductNestedInput
@@ -9748,10 +9840,13 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     category_id?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
     carts?: CartUncheckedUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUncheckedUpdateManyWithoutProductNestedInput
@@ -9766,10 +9861,13 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProductUpdateManyMutationInput = {
@@ -9779,9 +9877,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProductUncheckedUpdateManyInput = {
@@ -9792,10 +9893,13 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     category_id?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ImageProductCreateInput = {
@@ -10202,6 +10306,7 @@ export namespace Prisma {
     enabled?: SortOrder
     address?: SortOrder
     phone?: SortOrder
+    type_account?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10209,6 +10314,7 @@ export namespace Prisma {
   export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
     role?: SortOrder
+    type_account?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -10221,6 +10327,7 @@ export namespace Prisma {
     enabled?: SortOrder
     address?: SortOrder
     phone?: SortOrder
+    type_account?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10235,6 +10342,7 @@ export namespace Prisma {
     enabled?: SortOrder
     address?: SortOrder
     phone?: SortOrder
+    type_account?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10242,6 +10350,7 @@ export namespace Prisma {
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
     role?: SortOrder
+    type_account?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -10397,16 +10506,20 @@ export namespace Prisma {
     condition?: SortOrder
     description_condition?: SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
     status?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
     id?: SortOrder
     condition?: SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
   }
 
@@ -10418,10 +10531,13 @@ export namespace Prisma {
     condition?: SortOrder
     description_condition?: SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
     status?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
@@ -10432,16 +10548,20 @@ export namespace Prisma {
     condition?: SortOrder
     description_condition?: SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
     status?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
     id?: SortOrder
     condition?: SortOrder
     starting_price?: SortOrder
+    min_bid_price?: SortOrder
     category_id?: SortOrder
   }
 
@@ -11514,9 +11634,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     images?: ImageProductCreateNestedManyWithoutProductInput
     carts?: CartCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardCreateNestedManyWithoutProductInput
@@ -11531,9 +11654,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
     carts?: CartUncheckedCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardUncheckedCreateNestedManyWithoutProductInput
@@ -11577,10 +11703,13 @@ export namespace Prisma {
     condition?: FloatFilter<"Product"> | number
     description_condition?: StringNullableFilter<"Product"> | string | null
     starting_price?: FloatFilter<"Product"> | number
+    min_bid_price?: FloatFilter<"Product"> | number
     category_id?: IntFilter<"Product"> | number
     status?: BoolFilter<"Product"> | boolean
     start_date?: DateTimeFilter<"Product"> | Date | string
     end_date?: DateTimeFilter<"Product"> | Date | string
+    createdAt?: DateTimeFilter<"Product"> | Date | string
+    updatedAt?: DateTimeFilter<"Product"> | Date | string
   }
 
   export type CategoryCreateWithoutProductsInput = {
@@ -11820,9 +11949,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     carts?: CartCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardCreateNestedManyWithoutProductInput
@@ -11837,10 +11969,13 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     carts?: CartUncheckedCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardUncheckedCreateNestedManyWithoutProductInput
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
@@ -11869,9 +12004,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     carts?: CartUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUpdateManyWithoutProductNestedInput
@@ -11886,10 +12024,13 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     category_id?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUncheckedUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUncheckedUpdateManyWithoutProductNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
@@ -11902,9 +12043,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ImageProductCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardCreateNestedManyWithoutProductInput
@@ -11919,10 +12063,13 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardUncheckedCreateNestedManyWithoutProductInput
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
@@ -11942,6 +12089,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     auctioneerBoards?: Auctioneer_BoardCreateNestedManyWithoutUserInput
@@ -11958,6 +12106,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     auctioneerBoards?: Auctioneer_BoardUncheckedCreateNestedManyWithoutUserInput
@@ -11987,9 +12136,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ImageProductUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUpdateManyWithoutProductNestedInput
@@ -12004,10 +12156,13 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     category_id?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUncheckedUpdateManyWithoutProductNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
@@ -12033,6 +12188,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     auctioneerBoards?: Auctioneer_BoardUpdateManyWithoutUserNestedInput
@@ -12049,6 +12205,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     auctioneerBoards?: Auctioneer_BoardUncheckedUpdateManyWithoutUserNestedInput
@@ -12064,6 +12221,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     carts?: CartCreateNestedManyWithoutUserInput
@@ -12080,6 +12238,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
@@ -12098,9 +12257,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ImageProductCreateNestedManyWithoutProductInput
     carts?: CartCreateNestedManyWithoutProductInput
@@ -12115,10 +12277,13 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
     carts?: CartUncheckedCreateNestedManyWithoutProductInput
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
@@ -12149,6 +12314,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUpdateManyWithoutUserNestedInput
@@ -12165,6 +12331,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
@@ -12189,9 +12356,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ImageProductUpdateManyWithoutProductNestedInput
     carts?: CartUpdateManyWithoutProductNestedInput
@@ -12206,10 +12376,13 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     category_id?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
     carts?: CartUncheckedUpdateManyWithoutProductNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
@@ -12224,6 +12397,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     carts?: CartCreateNestedManyWithoutUserInput
@@ -12240,6 +12414,7 @@ export namespace Prisma {
     enabled: boolean
     address?: string | null
     phone?: string | null
+    type_account: number
     createdAt?: Date | string
     updatedAt?: Date | string
     carts?: CartUncheckedCreateNestedManyWithoutUserInput
@@ -12258,9 +12433,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
     images?: ImageProductCreateNestedManyWithoutProductInput
     carts?: CartCreateNestedManyWithoutProductInput
@@ -12275,10 +12453,13 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     category_id: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     images?: ImageProductUncheckedCreateNestedManyWithoutProductInput
     carts?: CartUncheckedCreateNestedManyWithoutProductInput
     auctioneerBoards?: Auctioneer_BoardUncheckedCreateNestedManyWithoutProductInput
@@ -12309,6 +12490,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUpdateManyWithoutUserNestedInput
@@ -12325,6 +12507,7 @@ export namespace Prisma {
     enabled?: BoolFieldUpdateOperationsInput | boolean
     address?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
+    type_account?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     carts?: CartUncheckedUpdateManyWithoutUserNestedInput
@@ -12349,9 +12532,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
     images?: ImageProductUpdateManyWithoutProductNestedInput
     carts?: CartUpdateManyWithoutProductNestedInput
@@ -12366,10 +12552,13 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     category_id?: IntFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
     carts?: CartUncheckedUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUncheckedUpdateManyWithoutProductNestedInput
@@ -12504,9 +12693,12 @@ export namespace Prisma {
     condition: number
     description_condition?: string | null
     starting_price: number
+    min_bid_price: number
     status: boolean
     start_date: Date | string
     end_date: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProductUpdateWithoutCategoryInput = {
@@ -12516,9 +12708,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ImageProductUpdateManyWithoutProductNestedInput
     carts?: CartUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUpdateManyWithoutProductNestedInput
@@ -12533,9 +12728,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ImageProductUncheckedUpdateManyWithoutProductNestedInput
     carts?: CartUncheckedUpdateManyWithoutProductNestedInput
     auctioneerBoards?: Auctioneer_BoardUncheckedUpdateManyWithoutProductNestedInput
@@ -12550,9 +12748,12 @@ export namespace Prisma {
     condition?: FloatFieldUpdateOperationsInput | number
     description_condition?: NullableStringFieldUpdateOperationsInput | string | null
     starting_price?: FloatFieldUpdateOperationsInput | number
+    min_bid_price?: FloatFieldUpdateOperationsInput | number
     status?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ImageProductCreateManyProductInput = {

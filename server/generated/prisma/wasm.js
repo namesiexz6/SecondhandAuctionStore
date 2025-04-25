@@ -127,6 +127,7 @@ exports.Prisma.UserScalarFieldEnum = {
   enabled: 'enabled',
   address: 'address',
   phone: 'phone',
+  type_account: 'type_account',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -144,10 +145,13 @@ exports.Prisma.ProductScalarFieldEnum = {
   condition: 'condition',
   description_condition: 'description_condition',
   starting_price: 'starting_price',
+  min_bid_price: 'min_bid_price',
   category_id: 'category_id',
   status: 'status',
   start_date: 'start_date',
-  end_date: 'end_date'
+  end_date: 'end_date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ImageProductScalarFieldEnum = {
