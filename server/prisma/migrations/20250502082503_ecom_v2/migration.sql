@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `user` MODIFY `role` INTEGER NOT NULL DEFAULT 2,
+    MODIFY `enabled` BOOLEAN NOT NULL DEFAULT true,
+    MODIFY `type_account` INTEGER NOT NULL DEFAULT 1;

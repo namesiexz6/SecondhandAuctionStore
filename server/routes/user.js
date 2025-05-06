@@ -1,6 +1,6 @@
 const express = require('express');
 const { getAllUsers, updateUser, deleteUser, changeUserRole } = require('../controllers/userController');
-const { checkLogin, checkAdmin} = require('../middlewares/auth');
+const { checkLogin, checkAdmin } = require('../middlewares/auth');
 const router = express.Router();
 
 router.get('/get-all-users', checkLogin, checkAdmin, getAllUsers);

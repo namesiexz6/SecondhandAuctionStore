@@ -10,16 +10,32 @@ cloudinary.config({
 
 
 exports.getAllProducts = async (req, res) => {
+    const number = parseInt(req.query.number) || 10; // Get the page number from query params, default to 10
     try {
         const products = await prisma.product.findMany({
+            where: {
+                status: true, // Filter products by status
+                end_date: {
+                    gte: new Date(), // Filter products that are not expired
+                },
+            },
             include: {
                 category: true, // Include related categories
                 images: true, // Include related images
-                auctioneerBoards: true, // Include related auctioneer boards
+                auctioneerBoards: {
+                    orderBy: { 
+                        price_offer: 'desc', // Order by price in descending order
+                    },
+                    include: {
+                        user: true, // Include related users
+                    },
+                    take: 5, // Limit to the latest auctioneer board
+                }, 
             },
             orderBy: {
                 end_date: 'asc', // Order by end date in ascending order
             },
+            take: number, // Limit the number of products returned
         });
         res.json(products);
     } catch (error) {
@@ -154,67 +170,38 @@ exports.deleteProductImage = async (req, res) => {
 }
 
 
-const searchProduct = async (req, res, search) => {
-
+exports.filterSearchProduct = async (req, res) => {
+    const { search, category_id, priceRange } = req.body;
     try {
-        const products = await prisma.product.findMany({
-            where: {
-                name: {
-                    contains: search,
-                    mode: 'insensitive',
-                },
-    
+        // สร้าง where object ตาม filter ที่ส่งมา
+        let where = {
+            status: true,
+            end_date: {
+                gte: new Date(),
             },
-            include: {
-                category: true,
-                images: true,
-                auctioneerBoards: true,
-            },
-        });
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
-const searchProductByCategory = async (req, res, category_id) => {
-    try {
-        const products = await prisma.product.findMany({
-            where: {
-                category_id:{
-                    in: category_id.map((id) => parseInt(id)),
-                },
-            },
-            include: {
-                category: true,
-                images: true,
-                auctioneerBoards: true,
-            },
-        });
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
-const searchProductByPrice = async (req, res, priceRange) => {
-
-    try {
-        const products = await prisma.product.findMany({
-            where: {
-                auctioneerBoards: {
+        };
+        if (search) {
+            where.name = {
+                contains: search,
+            };
+        }
+        if (category_id && Array.isArray(category_id) && category_id.length > 0) {
+            where.category_id = {
+                in: category_id.map((id) => parseInt(id)),
+            };
+        }
+        if (priceRange && priceRange.length === 2) {
+            where.auctioneerBoards = {
+                some: {
                     price_offer: {
                         gte: parseFloat(priceRange[0]),
                         lte: parseFloat(priceRange[1]),
                     },
-                    orderBy: {
-                        price_offer: 'desc', // Order by price in descending order
-                    },
-                    //take 1 if duplicate product id
-                    distinct: ['product_id'],
-                    
                 },
-            },
+            };
+        }
+        const products = await prisma.product.findMany({
+            where,
             include: {
                 category: true,
                 images: true,
@@ -222,25 +209,6 @@ const searchProductByPrice = async (req, res, priceRange) => {
             },
         });
         res.json(products);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
-exports.filterSearchProduct = async (req, res) => {
-
-    const { search, category_id, priceRange } = req.body;
-    try {
-       if (search){
-         await searchProduct(req, res, search);
-       }
-       if (category_id) {
-         await searchProductByCategory(req, res, category_id);
-       }
-
-       if (priceRange) {
-         await searchProductByPrice(req, res,prceRange);
-       }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -253,8 +221,8 @@ exports.getAuctioneerBoard = async (req, res) => {
             where: { product_id: parseInt(product_id) },
             orderBy: {
                 price_offer: 'desc', // Order by price in descending order
-                take: 5, // Take the highest price offer
             },
+            take: 5, // Take the highest price offer
             include: {
                 user: true, // Include related users
             },
@@ -275,7 +243,7 @@ exports.addAuctioneerBoard = async (req, res) => {
                 price_offer: parseFloat(price_offer),
             },
         });
-        res.json({ message: "Auctioneer board added successfully." });
+        res.json(auctioneerBoard);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

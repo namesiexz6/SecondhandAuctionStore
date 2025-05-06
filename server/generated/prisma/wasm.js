@@ -188,13 +188,20 @@ exports.Prisma.Auctioneer_BoardScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
-  product_id: 'product_id',
-  final_price_product: 'final_price_product',
   total_price: 'total_price',
   address: 'address',
   phone: 'phone',
   orderStatus: 'orderStatus',
   paymentType: 'paymentType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductOnOrderScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  product_id: 'product_id',
+  final_price_product: 'final_price_product',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -249,7 +256,8 @@ exports.Prisma.ModelName = {
   ImageProduct: 'ImageProduct',
   Cart: 'Cart',
   Auctioneer_Board: 'Auctioneer_Board',
-  Order: 'Order'
+  Order: 'Order',
+  ProductOnOrder: 'ProductOnOrder'
 };
 
 /**

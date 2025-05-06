@@ -12,9 +12,9 @@ router.post('/login', LoginUser);
 
 router.post('/login/google', LoginGoogle);
 
-router.get('/current-user', checkLogin, CurrentUser);
+router.post('/current-user', checkLogin, CurrentUser);
 
-router.get('/current-admin', checkLogin, checkAdmin, CurrentUser);
+router.post('/current-admin', checkLogin, checkAdmin, CurrentUser);
 
 router.post('/logout', LogoutUser);
 

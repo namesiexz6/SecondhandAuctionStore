@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/add-category', checkLogin, checkAdmin, addCategory);
 
-router.get('/get-all-categories', checkLogin, getAllCategories);
+router.get('/get-all-categories', getAllCategories);
 
 router.put('/update-category/:category_id', checkLogin, checkAdmin, updateCategory);
 

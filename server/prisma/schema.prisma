@@ -20,11 +20,11 @@ model User {
   password     String?
   name         String?
   picture      String?
-  role         Int
-  enabled      Boolean
-  address      String?
+  role         Int      @default(2)
+  enabled      Boolean  @default(true)
+  address      String?  @db.Text
   phone        String?
-  type_account Int
+  type_account Int      @default(1)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -43,9 +43,9 @@ model Product {
   id                    Int      @id @default(autoincrement())
   name                  String
   size                  String
-  description           String
+  description           String   @db.Text
   condition             Float
-  description_condition String?
+  description_condition String?  @db.Text
   starting_price        Float
   min_bid_price         Float
   category_id           Int
@@ -59,7 +59,7 @@ model Product {
   images           ImageProduct[]
   carts            Cart[]
   auctioneerBoards Auctioneer_Board[]
-  orders           Order[]
+  productOnOrders  ProductOnOrder[]
 }
 
 model ImageProduct {
@@ -101,18 +101,28 @@ model Auctioneer_Board {
 }
 
 model Order {
+  id          Int      @id @default(autoincrement())
+  user_id     Int
+  total_price Float
+  address     String  @db.Text
+  phone       String
+  orderStatus Int
+  paymentType Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user     User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  products ProductOnOrder[]
+}
+
+model ProductOnOrder {
   id                  Int      @id @default(autoincrement())
-  user_id             Int
-  product_id          Int
+  order_id            Int
+  product_id          Int      @unique
   final_price_product Float
-  total_price         Float
-  address             String
-  phone               String
-  orderStatus         Int
-  paymentType         Int
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 
-  user    User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade) //when the product is deleted, set the product_id to null
+  order   Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }

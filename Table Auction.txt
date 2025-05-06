@@ -65,11 +65,16 @@ Auctioneer_Board:
 order:
 - id (int, primary key)
 - user_id (int, foreign key)
-- cart_id (int, foreign key)
-- final_price_product (float)
 - cartTotal (float)
 - address (string)
 - orderStatus (int)                 -- 0 = pending, 1 = paid, etc.
 - paymentType (int)                 -- 0 = cod, 1 = transfer
 - createdAt (datetime)
 - updatedAt (datetime)
+
+
+ProductOnOrder:
+- id (int, primary key)
+- product_id (int, foreign key)
+- order_id (int, foreign key)
+- final_price_product (float)

@@ -14,7 +14,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    const { name, email, password, picture, enabled, adress, phone } = req.body;
+    const { name, email, password, picture, enabled, address, phone } = req.body;
 
     try {
         const data = {};
@@ -23,7 +23,7 @@ exports.updateUser = async (req, res) => {
         if (password !== undefined) data.password = password;
         if (picture !== undefined) data.picture = picture;
         if (enabled !== undefined) data.enabled = enabled;
-        if (adress !== undefined) data.adress = adress;
+        if (address !== undefined) data.address = address;
         if (phone !== undefined) data.phone = phone;
 
         const user = await prisma.user.update({

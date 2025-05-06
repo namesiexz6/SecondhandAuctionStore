@@ -8,7 +8,7 @@ router.post('/add-product-image/:product_id', checkLogin, checkAdmin, addProduct
 
 router.delete('/delete-product-image/:product_id', checkLogin, checkAdmin, deleteProductImage);
 
-router.get('/products', getAllProducts);
+router.get('/products/:number', getAllProducts);
 
 router.post('/add-product', checkLogin, checkAdmin, addProduct);
 
@@ -16,10 +16,10 @@ router.put('/update-product/:product_id', checkLogin, checkAdmin, updateProduct)
 
 router.delete('/delete-product/:product_id', checkLogin, checkAdmin, deleteProduct);
 
-router.get('/filter-search', filterSearchProduct);
+router.post('/filter-search', filterSearchProduct);
 
-router.get('/auctioneer-board', getAuctioneerBoard);
+router.get('/auctioneer-board/:product_id', getAuctioneerBoard);
 
-router.post('/add-auctioneer-board', addAuctioneerBoard);
+router.post('/add-auctioneer-board', checkLogin, addAuctioneerBoard);
 
 module.exports = router;

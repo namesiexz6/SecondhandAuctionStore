@@ -23,11 +23,20 @@ exports.LoginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, {
+        const payload = {
+
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: '1d',
         });
+        //console.log(token);
 
-        res.status(200).json({ message: 'Login successful', token });
+        res.status(200).json({ message: 'Login successful', payload, token });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Something went wrong', error });
@@ -125,7 +134,7 @@ exports.Register = async (req, res) => {
             },
         });
 
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        res.status(201).json({ message: 'User registered successfully'});
     } catch (error) {
         if (error.code === 'P2002') {
             return res.status(400).json({ message: 'Email already exists' });

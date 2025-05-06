@@ -1,0 +1,94 @@
+import React, { useState, useEffect } from 'react'
+import CountdownTime from './CountdownTime'
+import useAppStore from '../../store/AppStore'
+import { useNavigate } from 'react-router-dom'
+
+const ListCart = () => {
+  const [selected, setSelected] = useState([]);
+  const user = useAppStore((state) => state.user);
+  const token = useAppStore((state) => state.token);
+  const carts = useAppStore((state) => state.carts);
+  const getCart = useAppStore((state) => state.actionGetCartByUser);
+  const setCartsForPayment = useAppStore((state) => state.setCartsForPayment);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && token) {
+      getCart(user.id, token);
+    }
+  }, [user, token, getCart]);
+
+  const handleSelect = (id) => {
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const getPayDeadline = (createdAt) => {
+    const deadline = new Date(createdAt);
+    deadline.setDate(deadline.getDate() + 1);
+    return deadline.toISOString();
+  };
+
+  // เมื่อกดชำระเงิน ให้เก็บ cart ที่เลือกไว้ใน store แล้วไปหน้า payment
+  const handlePay = () => {
+    const selectedCarts = carts.filter((cart) => selected.includes(cart.id));
+    setCartsForPayment(selectedCarts);
+    navigate('/user/payment');
+  };
+
+  return (
+    <div className="flex gap-6 w-full max-w-6xl mx-auto my-8">
+      {/* col1: รายการ cart */}
+      <div className="w-3/4 bg-white rounded-lg shadow p-4 flex flex-col gap-4">
+        <h2 className="text-lg font-bold mb-2">รายการที่คุณชนะประมูล</h2>
+        {carts && carts.length > 0 ? carts.map((cart) => (
+          <div key={cart.id} className="flex items-center gap-4 border rounded p-3">
+            <input
+              type="checkbox"
+              checked={selected.includes(cart.id)}
+              onChange={() => handleSelect(cart.id)}
+              className="accent-green-600 w-5 h-5"
+            />
+            <img src={cart.product?.images?.[0]?.url || 'https://picsum.photos/200'} alt={cart.product?.name} className="w-20 h-20 object-cover rounded-md" />
+            <div className="flex-1">
+              <div className="font-semibold text-base">{cart.product?.name || '-'}</div>
+              <div className="text-xs text-gray-500 mt-1">ราคาที่ชนะ: <span className="text-green-600 font-semibold">{cart.final_price_product?.toLocaleString()} บาท</span></div>
+              <div className="text-xs text-gray-500 mt-1">ชำระภายใน: <span className="text-red-500 font-semibold"><CountdownTime endTime={getPayDeadline(cart.createdAt)} /></span></div>
+            </div>
+          </div>
+        )) : <div className="text-gray-400">ไม่มีรายการ cart</div>}
+        {/* ปุ่มชำระเงิน (mobile) */}
+        <div className="block md:hidden mt-4">
+          <button
+            className="w-full bg-green-600 text-white py-2 rounded font-bold disabled:bg-gray-300"
+            disabled={selected.length === 0}
+            onClick={handlePay}
+          >
+            ดำเนินการชำระเงิน
+          </button>
+        </div>
+      </div>
+      {/* col2: กฎและปุ่มชำระ */}
+      <div className="w-1/4 bg-gray-50 rounded-lg shadow p-4 flex flex-col justify-between min-h-[300px]">
+        <div>
+          <h3 className="font-bold text-base mb-2">ข้อควรทราบ</h3>
+          <ul className="text-xs text-gray-700 list-disc pl-4 mb-4">
+            <li>กรุณาชำระเงินภายใน 24 ชั่วโมงหลังชนะประมูล</li>
+            <li>หากไม่ชำระเงินตามกำหนด คุณจะถูกระงับสิทธิ์การประมูลชั่วคราว</li>
+            <li>หากมีข้อสงสัย กรุณาติดต่อฝ่ายบริการลูกค้า</li>
+          </ul>
+        </div>
+        <button
+          className="w-full bg-green-600 text-white py-2 rounded font-bold disabled:bg-gray-300 mt-4"
+          disabled={selected.length === 0}
+          onClick={handlePay}
+        >
+          ดำเนินการชำระเงิน
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ListCart;

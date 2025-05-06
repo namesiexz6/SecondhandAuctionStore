@@ -7,7 +7,12 @@ exports.getCart = async (req, res) => {
         const cart = await prisma.cart.findMany({
             where: { user_id: parseInt(user_id) },
             include: {
-                product: true, // Include related products
+                product: {
+                    include: {
+                        images: true,    
+                    },
+                }, 
+
             },
         });
         res.json(cart);
@@ -36,6 +41,42 @@ exports.addCart = async (req, res) => {
     }
 }
 
+
+// ฟังก์ชันสำหรับ cron job (ไม่ใช้ req, res)
+async function autoAddCartForExpiredAuctionsCron() {
+    try {
+        const expiredProducts = await prisma.product.findMany({
+            where: {
+                end_date: { lt: new Date() },
+                status: true,
+                carts: { none: {} }
+            }
+        });
+        for (const product of expiredProducts) {
+            const topBid = await prisma.auctioneer_Board.findFirst({
+                where: { product_id: product.id },
+                orderBy: { price_offer: 'desc' }
+            });
+            if (!topBid) continue;
+            const duedate = new Date();
+            duedate.setDate(duedate.getDate() + 1);
+            await prisma.cart.create({
+                data: {
+                    user_id: topBid.user_id,
+                    product_id: product.id,
+                    final_price_product: topBid.price_offer,
+                    dueDate: duedate,
+                    cartprice: topBid.price_offer
+                }
+            });
+        }
+        // log สำหรับ debug
+        //console.log('Auto add cart cron job completed');
+    } catch (error) {
+        console.error('Auto add cart cron job error:', error.message);
+    }
+}
+
 exports.deleteCart = async (req, res) => {
     const { cart_id } = req.params;
     try {
@@ -47,3 +88,4 @@ exports.deleteCart = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+exports.autoAddCartForExpiredAuctionsCron = autoAddCartForExpiredAuctionsCron;
