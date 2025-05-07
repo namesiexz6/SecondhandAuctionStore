@@ -3,6 +3,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, NavLink } from 'react-router-dom'
 import React from 'react'
 import useAppStore from '../store/AppStore'
+import Logo from '../assets/react.svg' // Assuming you have a react logo in your assets folder
 
 
 const navigation = [
@@ -12,6 +13,7 @@ const navigation = [
 const navigationUser = [
   { name: 'My Auctions', href: '/user/my-auctions', current: false },
   { name: 'Cart', href: '/user/cart', current: false },
+  { name: 'My Orders', href: '/user/my-order', current: false },
 
 ]
 
@@ -25,7 +27,7 @@ export default function NavUser() {
 
 
   return (
-    <Disclosure as="nav" className="fixed top-0 left-0 w-full z-50 bg-gray-800">
+    <Disclosure as="nav" className="fixed top-0 left-0 w-full z-50 bg-gray-800 sticky">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -42,7 +44,7 @@ export default function NavUser() {
               <Link to="/">
                 <img
                   alt="Your Company"
-                  src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                  src={Logo}
                   className="h-8 w-auto"
                 />
               </Link>
@@ -145,6 +147,19 @@ export default function NavUser() {
               {item.name}
             </NavLink>
           ))}
+          {user ? (
+            navigationUser.map((item) => (
+              <NavLink
+                key={item.name}
+                as="a"
+                to={item.href}
+                className={({ isActive }) =>
+                  isActive ? "bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" : "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                }
+              >
+                {item.name}
+              </NavLink>
+            ))) : null}
         </div>
       </DisclosurePanel>
     </Disclosure>

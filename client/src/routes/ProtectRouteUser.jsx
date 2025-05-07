@@ -5,7 +5,7 @@ import LoadingToRedirect from './LoadingToRedirect'
 
 
 const ProtectRouteUser = ({ element }) => {
-    const [ok, setOk] = useState(false)
+    const [ok, setOk] = useState(true)
     const user = useAppStore((state) => state.user)
     const token = useAppStore((state) => state.token)
 

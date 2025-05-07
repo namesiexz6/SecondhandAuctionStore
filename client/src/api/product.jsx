@@ -10,6 +10,12 @@ export const createProduct = async (productData, token) => await axios.post(`${A
 
 export const getAllProducts = async (number) => await axios.get(`${API_URL}products/${number}`, );
 
+export const getAllProductsAdmin = async (token) => await axios.get(`${API_URL}products-admin`, {
+    headers: {
+        Authorization: `Bearer ${token}`,
+    },
+});
+
 export const deleteProduct = async (productId, token) => await axios.delete(`${API_URL}delete-product/${productId}`, {
     headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +42,11 @@ export const deleteProductImage = async (productId, token) => await axios.delete
 
 export const filterSearchProduct = async (filter) => await axios.post(`${API_URL}filter-search`,  filter );
 
-export const getAuctioneerBoard = async (productId) => await axios.get(`${API_URL}auctioneer-board/${productId}`);
+export const getAuctUser = async (userId, token) => await axios.get(`${API_URL}user-auct/${userId}`, {
+    headers: {
+        Authorization: `Bearer ${token}`
+    },
+});
 
 export const addAuctioneerBoard = async (auctioneerData, token) => await axios.post(`${API_URL}add-auctioneer-board`, auctioneerData, {
     headers: {

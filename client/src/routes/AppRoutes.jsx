@@ -7,12 +7,16 @@ import Register from "../pages/Register";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import LayoutUser from "../layouts/LayoutUser";
-// import LayoutAdmin from "../layouts/LayoutAdmin";
 import MainProduct from "../pages/MainProduct";
 import MyAunctions from "../pages/MyAunctions";
 import Cart from "../pages/Cart";
 import Payment from "../pages/Payment";
-import FooterUser from "../components/FooterUser";
+import MyOrder from "../pages/MyOrder";
+import LayoutAdmin from "../layouts/LayoutAdmin";
+import ManageUser from "../pages/Admin/ManageUser";
+import ManageCategories from "../pages/Admin/ManageCategories";
+import ManageProducts from "../pages/Admin/ManageProducts";
+import ManageOrders from "../pages/Admin/ManageOrders";
 
 const router = createBrowserRouter([
   {
@@ -37,10 +41,24 @@ const router = createBrowserRouter([
       {path: "my-auctions", element: <MyAunctions />, },
       {path: "cart", element: <Cart />, },
       {path: "payment", element: <Payment />, },
+      {path: "my-order", element: <MyOrder />, },
+
       
 
     ],
   },
+
+  {
+    path: "/admin",
+    element: <ProtectRouteAdmin element={<LayoutAdmin />}/>,
+    children: [
+      {index: true, element: <div>admin</div>, },
+      {path: "manage-user", element: <ManageUser />, },
+      {path: "category", element: <ManageCategories />, },
+      {path: "product", element: <ManageProducts />, },
+      {path: "orders", element: <ManageOrders />,  },
+    ]
+  }
   
   // {path: "/admin", element: <ProtectRouteAdmin element={<LayoutAdmin />}/>, },
 

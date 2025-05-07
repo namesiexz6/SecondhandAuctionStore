@@ -14,13 +14,13 @@ export const updateUser = async (userId, userData, token) => await axios.post(`$
         }
 });
 
-export const deleteUser = async (token, id) => await axios.delete(`${API_URL}delete-user/${id}`, {
+export const deleteUser = async (id, token) => await axios.delete(`${API_URL}delete-user/${id}`, {
     headers: {
         Authorization: `Bearer ${token}` 
         }
 });
 
-export const changeUserRole = async (token, userData) => await axios.patch(`${API_URL}change-user-role/${userData.id}`, userData, {
+export const changeUserRole = async (userId, userData, token) => await axios.patch(`${API_URL}change-user-role/${userId}`, userData, {
     headers: {
         Authorization: `Bearer ${token}` 
         }

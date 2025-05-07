@@ -89,7 +89,9 @@ exports.CurrentUser = async (req, res) => {
                 enabled: true,
                 address: true,
                 phone: true,
-
+                carts: true,
+                orders: true,
+                auctioneerBoards: true,
             },
         });
 

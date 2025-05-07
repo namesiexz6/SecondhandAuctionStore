@@ -3,7 +3,7 @@ import ListCart from '../components/Product/ListCart'
 
 const Cart = () => {
   return (
-    <div className='pt-16'>
+    <div className="min-h-screen h-full">
       <ListCart />
     </div>
   )

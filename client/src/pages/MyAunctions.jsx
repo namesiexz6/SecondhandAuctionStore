@@ -3,7 +3,7 @@ import ListHistory from '../components/Product/ListHistory'
 
 const MyAunctions = () => {
   return (
-    <div className='pt-16'>
+    <div className="min-h-screen h-full">
       <ListHistory />
     </div>
   )

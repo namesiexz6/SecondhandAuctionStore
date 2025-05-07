@@ -1,9 +1,9 @@
 import {create} from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import {login} from "../api/auth";
+import {login, currentUser} from "../api/auth";
 import {updateUser} from "../api/user";
 import { getAllCategories } from "../api/category";
-import { getAllProducts, filterSearchProduct, addAuctioneerBoard, getAuctioneerBoard, updateProduct} from "../api/product";
+import { getAllProducts, filterSearchProduct, addAuctioneerBoard, getAuctUser, updateProduct} from "../api/product";
 import { getCart } from "../api/cart";
 import { getOrderByUser, createOrder } from "../api/order";
 
@@ -29,10 +29,21 @@ const AppStore = (set) => ({
     },
     actionLogin: async (form) => {
         const res = await login(form);
-        set({ user: res.data.payload, token: res.data.token });
+        set({ token: res.data.token });
+        currentUser(res.data.token).then((res) => {
+            set({ user: res.data.user });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
         return res;
     },
-
+    
+    actionCurrentUser: async (token) => {
+        const res = await currentUser(token);
+        set({ user: res.data.user });
+        return res;
+    },
     actionGetAllCategories: async () => {
         const res = await getAllCategories();
         set({ categories: res.data });
@@ -76,8 +87,8 @@ const AppStore = (set) => ({
 
        
     },
-    getAuctioneerBoard: async (product_id) => {
-        const res = await getAuctioneerBoard(product_id);
+    getAuctUser: async (user_id, token) => {
+        const res = await getAuctUser(user_id, token);
         set({ auctioneerBoards: res.data });
        
     },
@@ -88,7 +99,12 @@ const AppStore = (set) => ({
 
     actionCreateOrder: async (form, token) => {
         const res = await createOrder(form, token);
-        set({ orders: res.data });
+        getOrderByUser(res.user_id, token).then((res) => {
+            set({ orders: res.data.order });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
         
     },
     

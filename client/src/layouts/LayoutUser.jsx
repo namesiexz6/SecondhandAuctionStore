@@ -5,14 +5,13 @@ import FooterUser from "../components/FooterUser";
 
 const Layout = () => {
   return (
-    <div>
+    <>
       <NavUser />
-
-      <main className="h-full px-2 mt-2 mx-auto">
+      <main className="flex-1 h-full px-2 mt-2 mx-auto">
         <Outlet />
       </main>
         <FooterUser />
-    </div>
+    </>
   );
 };
 

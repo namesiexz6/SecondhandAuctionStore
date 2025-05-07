@@ -15,7 +15,7 @@ const Shop = () => {
 
 
   return (
-    <div className='pt-16 pt-16'>
+    <>
       <div className='flex flex-col md:flex-row'>
         {/* Mobile Search Carousel Button */}
         <div className='block md:hidden w-full p-2 bg-gray-100'>
@@ -49,7 +49,7 @@ const Shop = () => {
         </div>
 
       </div>
-    </div>
+    </>
 
   )
 

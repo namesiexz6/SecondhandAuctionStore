@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllProducts, addProduct, updateProduct, deleteProduct, addProductImage, deleteProductImage, filterSearchProduct, getAuctioneerBoard, addAuctioneerBoard } = require('../controllers/productController');
+const { getAllProducts, getAllProductsAdmin , addProduct, updateProduct, deleteProduct, addProductImage, deleteProductImage, filterSearchProduct, getUserAuct, addAuctioneerBoard } = require('../controllers/productController');
 const { checkLogin, checkAdmin} = require('../middlewares/auth');
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.delete('/delete-product-image/:product_id', checkLogin, checkAdmin, delet
 
 router.get('/products/:number', getAllProducts);
 
+router.get('/products-admin', getAllProductsAdmin, checkLogin, checkAdmin);
+
 router.post('/add-product', checkLogin, checkAdmin, addProduct);
 
 router.put('/update-product/:product_id', checkLogin, checkAdmin, updateProduct);
@@ -18,7 +20,7 @@ router.delete('/delete-product/:product_id', checkLogin, checkAdmin, deleteProdu
 
 router.post('/filter-search', filterSearchProduct);
 
-router.get('/auctioneer-board/:product_id', getAuctioneerBoard);
+router.get('/user-auct/:user_id', checkLogin, getUserAuct);
 
 router.post('/add-auctioneer-board', checkLogin, addAuctioneerBoard);
 

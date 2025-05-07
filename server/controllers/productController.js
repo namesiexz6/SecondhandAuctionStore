@@ -43,8 +43,26 @@ exports.getAllProducts = async (req, res) => {
     }
 }
 
+exports.getAllProductsAdmin = async (req, res) => {
+    try {
+        const products = await prisma.product.findMany({
+            include: {
+                category: true, // Include related categories
+                images: true, // Include related images
+            },
+            orderBy: {
+                end_date: 'asc', // Order by end date in ascending order
+            },
+        });
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 exports.addProduct = async (req, res) => {
-    const { name, size, description, condition, starting_price, min_bid_price, category_id, status, start_date, end_date } = req.body; // corrected 'srarting_price' to 'starting_price'
+    const { name, size, description, condition, starting_price, min_bid_price, category_id, start_date, end_date } = req.body;
     
     try {
         const product = await prisma.product.create({
@@ -56,12 +74,12 @@ exports.addProduct = async (req, res) => {
                 starting_price: parseFloat(starting_price),
                 min_bid_price: parseFloat(min_bid_price),
                 category_id: parseInt(category_id),
-                status,
-                start_date, //date format should be YYYY-MM-DD
-                end_date,
+                status: true,
+                start_date: new Date(start_date), //date format should be YYYY-MM-DD
+                end_date: new Date(end_date), //date format should be YYYY-MM-DD
             },
         });
-        res.json({message: "Product added successfully."});
+        res.json(product);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -82,12 +100,12 @@ exports.updateProduct = async (req, res) => {
                 starting_price: parseFloat(starting_price),
                 min_bid_price: parseFloat(min_bid_price),
                 category_id: parseInt(category_id),
-                status,
-                start_date, //date format should be YYYY-MM-DD
-                end_date,
+                status, 
+                start_date: new Date(start_date), //date format should be YYYY-MM-DD
+                end_date: new Date(end_date), //date format should be YYYY-MM-DD
             },
         });
-        res.json({message: "Product updated successfully."});
+        res.json(product);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -114,6 +132,7 @@ exports.addProductImage = async (req, res) => {
         return res.status(400).json({ error: "FileImage must be a non-empty array." });
     }
     try {
+        const images = []; 
         for (const image of FileImage) {
             const result = await cloudinary.uploader.upload(image, {
                 folder: "product_images",
@@ -122,7 +141,7 @@ exports.addProductImage = async (req, res) => {
             });
 
             // Save the image URL to the database
-            await prisma.imageProduct.create({
+            const savedImage = await prisma.imageProduct.create({
                 data: {
                     asset_id: result.asset_id,
                     public_id: result.public_id,
@@ -131,11 +150,11 @@ exports.addProductImage = async (req, res) => {
                     product_id: parseInt(product_id),
                 },
             });
-
-        
+            images.push(savedImage);
         }
 
-        res.json({ message: "Image added successfully." });
+        
+        res.json(images);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -214,19 +233,33 @@ exports.filterSearchProduct = async (req, res) => {
     }
 }
 
-exports.getAuctioneerBoard = async (req, res) => {
-    const { product_id } = req.params;
+exports.getUserAuct = async (req, res) => {
+    const { user_id } = req.params;
     try {
         const auctioneerBoard = await prisma.auctioneer_Board.findMany({
-            where: { product_id: parseInt(product_id) },
+            where: { user_id: parseInt(user_id) },
             orderBy: {
                 price_offer: 'desc', // Order by price in descending order
             },
-            take: 5, // Take the highest price offer
             include: {
-                user: true, // Include related users
+                product: {
+                    include: {
+                        images: true, // Include related images
+                        auctioneerBoards: {
+                            orderBy: { 
+                                price_offer: 'desc', // Order by price in descending order
+                            },    
+                            take: 1, // Limit to the latest auctioneer board
+                        },
+                    }
+                }
+               
             },
+            distinct: ['product_id'], // Distinct by product_id
+            
         });
+          // เรียงตาม createdAt (ล่าสุดอยู่บน)
+        auctioneerBoard.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         res.json(auctioneerBoard);
     } catch (error) {
         res.status(500).json({ error: error.message });

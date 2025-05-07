@@ -7,7 +7,9 @@ const FooterUser = () => (
         padding: "32px 0 16px 0",
         textAlign: "center",
         fontFamily: "Segoe UI, Arial, sans-serif",
-        boxShadow: "0 -2px 16px rgba(78,84,200,0.1)"
+        boxShadow: "0 -2px 16px rgba(78,84,200,0.1)",
+        width: "100%",
+        bottom: 0,
     }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px" }}>
             <h2 style={{ margin: 0, fontWeight: 700, fontSize: 28, letterSpacing: 1 }}>Secondhand Auction Store</h2>

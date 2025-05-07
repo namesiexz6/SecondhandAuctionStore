@@ -12,7 +12,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='pt-16'>
+    <>
       <div>
         <ContentCarousel />
       </div>
@@ -20,7 +20,7 @@ const Home = () => {
         <h1 className="text-2xl font-bold text-center mt-4">Featured Products</h1>
         <ListProducts number={10} />
       </div>
-    </div>
+    </>
   )
 }
 

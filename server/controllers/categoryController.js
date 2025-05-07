@@ -32,7 +32,7 @@ exports.updateCategory = async (req, res) => {
             where: { id: parseInt(category_id) },
             data: { name },
         });
-        res.json({ message: "Category updated successfully." });
+        res.json(category);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

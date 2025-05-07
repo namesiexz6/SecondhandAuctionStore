@@ -42,7 +42,7 @@ exports.addOrder = async (req, res) => {
                     },
                 });
             }
-            res.json({ order });
+            res.json( order );
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -82,7 +82,7 @@ exports.getOrderByUser = async (req, res) => {
             },
         });
        
-        res.json(orders);
+        res.json( orders );
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
