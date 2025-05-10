@@ -23,7 +23,7 @@ const Shop = () => {
             className='w-full py-2 px-4 bg-blue-500 text-white rounded mb-2 font-semibold'
             onClick={() => setShowMobileSearch((v) => !v)}
           >
-            {showMobileSearch ? 'ปิดตัวกรองสินค้า' : 'แสดงตัวกรองสินค้า'}
+            {showMobileSearch ? 'Close Filters' : 'Show Filters'}
           </button>
           {showMobileSearch && (
             <div className='w-full'>
@@ -39,11 +39,11 @@ const Shop = () => {
 
         {/* Product */}
         <div className='w-full md:w-3/4'>
-          <p className='text-2xl font-bold my-4 ml-4'>สินค้าทั้งหมด</p>
+          <p className='text-2xl font-bold my-4 ml-4'>All Products</p>
           <ListProducts number={numberOfProducts} />
           {products.length > 20 && (
             <div className='flex justify-center'>
-              <button className='py-2 px-4 bg-gray-300 text-white rounded mt-4 mx-4 hover:bg-gray-400' onClick={() => setNumberOfProducts((prev) => prev + 10)}>แสดงสินค้าเพิ่มเติม</button>
+              <button className='py-2 px-4 bg-gray-300 text-white rounded mt-4 mx-4 hover:bg-gray-400' onClick={() => setNumberOfProducts((prev) => prev + 10)}>Show More Products</button>
             </div>
           )}
         </div>

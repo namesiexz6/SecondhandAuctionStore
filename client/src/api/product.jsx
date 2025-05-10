@@ -16,6 +16,8 @@ export const getAllProductsAdmin = async (token) => await axios.get(`${API_URL}p
     },
 });
 
+export const getAuctioneerBoardByProductId = async (productId) => await axios.get(`${API_URL}auctioneer/${productId}`, );
+
 export const deleteProduct = async (productId, token) => await axios.delete(`${API_URL}delete-product/${productId}`, {
     headers: {
         Authorization: `Bearer ${token}`,

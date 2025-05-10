@@ -43,6 +43,7 @@ exports.getAllProducts = async (req, res) => {
     }
 }
 
+
 exports.getAllProductsAdmin = async (req, res) => {
     try {
         const products = await prisma.product.findMany({
@@ -210,21 +211,41 @@ exports.filterSearchProduct = async (req, res) => {
             };
         }
         if (priceRange && priceRange.length === 2) {
-            where.auctioneerBoards = {
-                some: {
-                    price_offer: {
-                        gte: parseFloat(priceRange[0]),
-                        lte: parseFloat(priceRange[1]),
+            const min = parseFloat(priceRange[0]);
+            const max = parseFloat(priceRange[1]);
+            where.OR = [
+                {
+                    auctioneerBoards: {
+                        some: {
+                            price_offer: {
+                                gte: min,
+                                lte: max,
+                            },
+                        },
                     },
                 },
-            };
+                {
+                    AND: [
+                        { auctioneerBoards: { none: {} } },
+                        { starting_price: { gte: min, lte: max } },
+                    ],
+                },
+            ];
         }
         const products = await prisma.product.findMany({
             where,
             include: {
                 category: true,
                 images: true,
-                auctioneerBoards: true,
+                auctioneerBoards: {
+                    orderBy: { 
+                        price_offer: 'desc', // Order by price in descending order
+                    },
+                    include: {
+                        user: true, // Include related users
+                    },
+                    take: 5, // Limit to the latest auctioneer board
+                }, 
             },
         });
         res.json(products);
@@ -269,12 +290,66 @@ exports.getUserAuct = async (req, res) => {
 exports.addAuctioneerBoard = async (req, res) => {
     const { product_id, user_id, price_offer } = req.body;
     try {
+        // ตรวจสอบ end_date ก่อน
+        let product = await prisma.product.findUnique({ where: { id: parseInt(product_id) } });
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        const now = new Date();
+        const endDate = new Date(product.end_date);
+        // ตรวจสอบว่าเวลาประมูลหมดหรือยัง
+        if (endDate < now) {
+            return res.status(400).json({ error: 'หมดเวลาประมูลแล้ว ไม่สามารถบิดได้' });
+        }
+        // ถ้าเหลือน้อยกว่า 1 นาที ให้ขยาย end_date อีก 1 นาที
+        const diffMs = endDate - now;
+        let updatedProduct = null;
+        if (diffMs < 60000) {
+            const newEndDate = new Date(now.getTime() + 60000);
+            updatedProduct = await prisma.product.update({
+                where: { id: parseInt(product_id) },
+                data: { end_date: newEndDate },
+            });
+        }
         const auctioneerBoard = await prisma.auctioneer_Board.create({
             data: {
                 product_id: parseInt(product_id),
                 user_id: parseInt(user_id),
                 price_offer: parseFloat(price_offer),
             },
+        });
+
+        // ดึง auctioneerBoard ล่าสุด
+        const latestBoards = await prisma.auctioneer_Board.findMany({
+            where: { product_id: parseInt(product_id) },
+            orderBy: { price_offer: 'desc' },
+            include: { user: true, product: true },
+            take: 5,
+        });
+
+        // emit event ไปยัง client ที่ subscribe room product_id
+        const { io } = require('../server');
+        io.to(`product_${product_id}`).emit('auctioneerBoardUpdate', latestBoards);
+
+        res.json({ ...auctioneerBoard, product: updatedProduct });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+exports.getAuctioneerBoardByProductId = async (req, res) => {
+    const { product_id } = req.params;
+    try {
+        const auctioneerBoard = await prisma.auctioneer_Board.findMany({
+            where: { product_id: parseInt(product_id) },
+            orderBy: {
+                price_offer: 'desc', // Order by price in descending order
+            },
+            include: {
+                user: true, // Include related users
+                product: true
+            },
+            take: 5, // Limit to the latest auctioneer board
         });
         res.json(auctioneerBoard);
     } catch (error) {

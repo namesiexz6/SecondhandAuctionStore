@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import axios from "axios";
+import cc1 from '../../assets/cc1.png';
+import cc2 from '../../assets/cc2.png';
+import cc3 from '../../assets/cc3.png';
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -11,20 +14,16 @@ import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 
 
+
+
 const ContentCarousel = () => {
   // Javascript
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    hdlGetImage();
-  }, []);
+  const data = [
+    { id: 1, link: cc1 },
+    { id: 2, link: cc2 },
+    { id: 3, link: cc3 },
+  ];
 
-  const hdlGetImage = () => {
-    // code
-    axios
-      .get("https://picsum.photos/v2/list?page=1&limit=20")
-      .then((res) => setData(res.data))
-      .catch((error) => console.log(error));
-  };
 
   return (
     <div>
@@ -32,20 +31,20 @@ const ContentCarousel = () => {
         pagination={true}
         modules={[Pagination, Autoplay]}
         autoplay={{
-          delay: 2500,
+          delay: 5000,
           disableOnInteraction: false,
         }}
-        className="mySwiper h-80 object-cover 
-        rounded-md mb-4"
+        className="mySwiper h-100 object-cover 
+        rounded-md mb-4 "
       >
         {data?.map((item) => (
           <SwiperSlide key={item.id}>
-            <img src={item.download_url} alt={item.author || 'carousel'} />
+            <img src={item.link} alt={'carousel'} />
           </SwiperSlide>
         ))}
       </Swiper>
 
-      <Swiper
+      {/* <Swiper
         slidesPerView={5}
         spaceBetween={10}
         pagination={true}
@@ -66,7 +65,7 @@ const ContentCarousel = () => {
             />
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
     </div>
   );
 };

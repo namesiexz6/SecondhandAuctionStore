@@ -6,6 +6,13 @@ const morgan = require('morgan');
 const {readdirSync} = require('fs');
 const cron = require('node-cron');
 const { autoAddCartForExpiredAuctionsCron } = require('./controllers/cartController');
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server, { cors: { origin: '*' } });
+
+module.exports.io = io;
+
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
@@ -17,6 +24,15 @@ readdirSync('./routes').map((r) => {
   app.use('/api', require(`./routes/${r}`));
 });
 
-app.listen(5000, () => {
+io.on('connection', (socket) => {
+  socket.on('joinProductRoom', (productId) => {
+    socket.join(`product_${productId}`);
+  });
+  socket.on('leaveProductRoom', (productId) => {
+    socket.leave(`product_${productId}`);
+  });
+});
+
+server.listen(5000, () => {
   console.log('Server is running on port 5000');
 });

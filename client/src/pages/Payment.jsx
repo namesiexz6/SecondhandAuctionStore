@@ -4,6 +4,7 @@ import UserOrder from '../components/Payment/UserOrder'
 import MethodPayment from '../components/Payment/MethodPayment'
 import useAppStore from '../store/AppStore';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Payment = () => {
     const cartsForPayment = useAppStore((state) => state.cartsForPayment) || [];
@@ -12,7 +13,7 @@ const Payment = () => {
     const createOrder = useAppStore((state) => state.actionCreateOrder);
     const navigate = useNavigate();
 
-    // ดึง address และ phone จาก user (address เป็น JSON string)
+    // Get address and phone from user (address is a JSON string)
     //let addressStr = '-';
     let phoneStr = user?.phone || '-';
     if (user?.address) {
@@ -31,7 +32,7 @@ const Payment = () => {
             const orderData = {
                 user_id: user.id,
                 orderStatus: 1, // pending
-                total_price: totalPrice, // รวมราคาสินค้าทั้งหมด
+                total_price: totalPrice, // total price of all products
                 paymentType: 1, // 1 = COD
                 address: user.address,
                 phone: phoneStr,
@@ -41,12 +42,12 @@ const Payment = () => {
                 }))
             };
             await createOrder(orderData, token);
-            // ไปหน้า success หรือแจ้งเตือน
-            alert('สร้างออเดอร์สำเร็จ!');
-            navigate('/'); // เปลี่ยนเส้นทางไปยังหน้าที่ต้องการหลังจากสร้างออเดอร์สำเร็จ
-            // หรือ navigate('/user/orders');
+            // Go to success page or show notification
+            toast.success('Order created successfully!');
+            navigate('/user/my-order'); // Redirect to desired page after order success
+            // or navigate('/user/orders');
         } catch (err) {
-            alert('เกิดข้อผิดพลาดในการสร้างออเดอร์: ' + err.message);
+            toast.error('Failed to create order: ' + (err.message || 'Unknown error'));
         }
     };
 
@@ -63,7 +64,7 @@ const Payment = () => {
             </div>
             <div className='flex justify-center my-4 max-w-xl mx-auto'>
                 <button className='bg-blue-400 hover:bg-blue-600 text-white px-4 py-2 rounded w-[70%]' onClick={handlePayNow}>Pay Now</button>
-                <button className='bg-gray-400 hover:bg-gray-600 text-white px-4 py-2 rounded w-[30%] ml-2'>Cancel</button>
+                <button className='bg-gray-400 hover:bg-gray-600 text-white px-4 py-2 rounded w-[30%] ml-2' onClick={() => navigate(-1)}>Cancel</button>
             </div>
         </div >
     )

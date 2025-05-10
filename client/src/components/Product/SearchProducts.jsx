@@ -49,19 +49,19 @@ const SearchSidebar = ({ onMobileSubmit }) => {
 
     return (
         <form className="p-4 bg-white rounded shadow w-full" onSubmit={handleSubmit}>
-            <h2 className="text-lg font-semibold mb-4">ค้นหาสินค้า</h2>
+            <h2 className="text-lg font-semibold mb-4">Product Search</h2>
             {/* Search by Text */}
             <input
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 type="text"
-                placeholder="ค้นหาสินค้า..."
+                placeholder="Search for products..."
                 className="border rounded w-full mb-4 px-2 py-1"
             />
 
             {/* Search by Category */}
             <div className="mb-4">
-                <h3 className="font-medium mb-2">หมวดหมู่</h3>
+                <h3 className="font-medium mb-2">Category</h3>
                 {categories && categories.length > 0 ? (
                     categories.map((cat) => (
                         <label key={cat.id} className="flex items-center mb-1">
@@ -76,13 +76,13 @@ const SearchSidebar = ({ onMobileSubmit }) => {
                         </label>
                     ))
                 ) : (
-                    <div>กำลังโหลดหมวดหมู่...</div>
+                    <div>Loading categories...</div>
                 )}
             </div>
 
             {/* Search by Price */}
             <div>
-                <h3 className="font-medium mb-2">ช่วงราคา</h3>
+                <h3 className="font-medium mb-2">Price Range</h3>
                 <div className="flex items-center justify-between text-sm mb-2 gap-2">
                     <input
                         type="number"
@@ -105,7 +105,7 @@ const SearchSidebar = ({ onMobileSubmit }) => {
                             const val = Math.min(100000, Math.max(Number(e.target.value), price[0]));
                             setPrice([price[0], val]);
                         }}
-                        className="border rounded w-20 px-2 py-1"
+                        className="border rounded w-20 px-2 py-1 bg"
                     />
                 </div>
                 <Slider
@@ -114,11 +114,11 @@ const SearchSidebar = ({ onMobileSubmit }) => {
                     max={100000}
                     value={price}
                     onChange={handlePriceChange}
+
                 />
             </div>
-          
-                <button type="submit" className="mt-4 w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded font-semibold">ค้นหา</button>
-           
+            
+            <button type="submit" className="mt-4 w-full py-2 bg-blue-700 hover:bg-blue-800 text-white rounded font-semibold">Search</button>
         </form>
     );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAppStoreAdmin from '../../store/AppStoreAdmin';
 import useAppStore from '../../store/AppStore';
+import { toast } from "react-toastify";
 
 const ManageUser = () => {
     const users = useAppStoreAdmin((state) => state.users) || [];
@@ -33,31 +34,33 @@ const ManageUser = () => {
 
     const handleSave = (user) => {
         if (editRole === user.role && editStatus === user.enabled) {
-            alert('ไม่มีการเปลี่ยนแปลงข้อมูล');
+            toast.info('No changes detected');
             return;
         }
         actionChangeUserRole(user.id, { role: editRole, enabled: editStatus }, token);
+        toast.success('User updated successfully');
         setEditUserId(null);
         setEditRole(0);
         setEditStatus(true);
     };
 
     const handleDelete = (user) => {
-        if (window.confirm('ยืนยันการลบผู้ใช้นี้?')) {
+        if (window.confirm('Are you sure you want to delete this user?')) {
             actionDeleteUser(user.id, token);
+            toast.success('User deleted successfully');
         }
     };
 
     return (
         <div className="max-w-full mx-auto my-10 bg-white p-6 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">จัดการผู้ใช้</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Manage Users</h2>
             <div className="overflow-x-auto rounded-lg border border-gray-200">
                 <table className="min-w-full bg-white text-sm">
                     <thead>
                         <tr className="bg-gradient-to-r from-indigo-100 to-blue-100 text-gray-700">
                             <th className="py-3 px-4 text-left font-semibold">No.</th>
-                            <th className="py-3 px-4 text-left font-semibold">ชื่อ</th>
-                            <th className="py-3 px-4 text-left font-semibold">อีเมล</th>
+                            <th className="py-3 px-4 text-left font-semibold">Name</th>
+                            <th className="py-3 px-4 text-left font-semibold">Email</th>
                             <th className="py-3 px-4 text-center font-semibold">Role</th>
                             <th className="py-3 px-4 text-center font-semibold">Status</th>
                             <th className="py-3 px-4 text-center font-semibold">Action</th>
@@ -97,12 +100,12 @@ const ManageUser = () => {
                                             value={editStatus}
                                             onChange={e => setEditStatus(e.target.value === 'true')}
                                         >
-                                            <option value={true}>เปิดใช้งาน</option>
-                                            <option value={false}>ปิดใช้งาน</option>
+                                            <option value={true}>Enabled</option>
+                                            <option value={false}>Disabled</option>
                                         </select>
                                     ) : (
                                         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${user.enabled ? 'bg-blue-100 text-blue-700' : 'bg-red-100 text-red-700'}`}>
-                                            {user.enabled ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}
+                                            {user.enabled ? 'Enabled' : 'Disabled'}
                                         </span>
                                     )}
                                 </td>
@@ -113,13 +116,13 @@ const ManageUser = () => {
                                                 className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg text-xs shadow transition"
                                                 onClick={() => handleSave(user)}
                                             >
-                                                ยืนยัน
+                                                Save
                                             </button>
                                             <button
                                                 className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded-lg text-xs shadow transition"
                                                 onClick={handleCancel}
                                             >
-                                                ยกเลิก
+                                                Cancel
                                             </button>
                                         </div>
                                     ) : (

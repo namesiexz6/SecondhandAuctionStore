@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useAppStoreAdmin from '../../store/AppStoreAdmin';
 import useAppStore from '../../store/AppStore';
+import { toast } from "react-toastify";
 
 const ManageCategories = () => {
     const token = useAppStore((state) => state.token);
@@ -20,8 +21,12 @@ const ManageCategories = () => {
 
     const handleAdd = (e) => {
         e.preventDefault();
-        if (!newCategory.trim()) return;
+        if (!newCategory.trim()) {
+            toast.error('Please enter a category name');
+            return;
+        }
         actionCreateCategory({ name: newCategory }, token);
+        toast.success('Category added successfully');
         setNewCategory('');
     };
 
@@ -31,8 +36,12 @@ const ManageCategories = () => {
     };
 
     const handleUpdate = (cat) => {
-        if (!editName.trim()) return;
+        if (!editName.trim()) {
+            toast.error('Please enter a category name');
+            return;
+        }
         actionUpdateCategory(cat.id, { name: editName }, token);
+        toast.success('Category updated successfully');
         setEditId(null);
         setEditName('');
     };
@@ -43,28 +52,30 @@ const ManageCategories = () => {
     };
 
     const handleDelete = (cat) => {
-        if (window.confirm('ยืนยันการลบหมวดหมู่นี้?')) {
+        if (window.confirm('Are you sure you want to delete this category?')) {
             actionDeleteCategory(cat.id, token);
+            toast.success('Category deleted successfully');
         }
     };
 
     return (
         <div className="max-w-full mx-auto my-10 bg-white p-6 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">จัดการหมวดหมู่</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Manage Categories</h2>
             <form onSubmit={handleAdd} className="flex gap-2 mb-6">
                 <input
                     className="flex-1 border rounded px-3 py-2"
-                    placeholder="เพิ่มหมวดหมู่ใหม่"
+                    placeholder="Add new category"
                     value={newCategory}
                     onChange={e => setNewCategory(e.target.value)}
                 />
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded" type="submit">เพิ่ม</button>
+                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded" type="submit">Add</button>
             </form>
-            <table className="min-w-full bg-white text-sm border">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <table className="min-w-full bg-white text-sm">
                 <thead>
                     <tr className="bg-gradient-to-r from-indigo-100 to-blue-100 text-gray-700">
-                        <th className="py-2 px-4 text-left font-semibold">#</th>
-                        <th className="py-2 px-4 text-left font-semibold">ชื่อหมวดหมู่</th>
+                        <th className="py-2 px-4 text-left font-semibold">ID</th>
+                        <th className="py-2 px-4 text-left font-semibold">Category Name</th>
                         <th className="py-2 px-4 text-center font-semibold">Action</th>
                     </tr>
                 </thead>
@@ -86,8 +97,8 @@ const ManageCategories = () => {
                             <td className="py-2 px-4 text-center">
                                 {editId === cat.id ? (
                                     <>
-                                        <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs mr-2" onClick={() => handleUpdate(cat)}>ยืนยัน</button>
-                                        <button className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded text-xs" onClick={handleCancel}>ยกเลิก</button>
+                                        <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs mr-2" onClick={() => handleUpdate(cat)}>Confirm</button>
+                                        <button className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded text-xs" onClick={handleCancel}>Cancel</button>
                                     </>
                                 ) : (
                                     <>
@@ -100,6 +111,7 @@ const ManageCategories = () => {
                     ))}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import CountdownTime from './CountdownTime'
 import useAppStore from '../../store/AppStore'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const ListCart = () => {
   const [selected, setSelected] = useState([]);
@@ -41,7 +42,7 @@ const ListCart = () => {
     <div className="flex gap-6 w-full max-w-6xl mx-auto my-8">
       {/* col1: รายการ cart */}
       <div className="w-3/4 bg-white rounded-lg shadow p-4 flex flex-col gap-4">
-        <h2 className="text-lg font-bold mb-2">รายการที่คุณชนะประมูล</h2>
+        <h2 className="text-lg font-bold mb-2">Auction Items You Won</h2>
         {carts && carts.length > 0 ? carts.map((cart) => (
           <div key={cart.id} className="flex items-center gap-4 border rounded p-3">
             <input
@@ -53,38 +54,50 @@ const ListCart = () => {
             <img src={cart.product?.images?.[0]?.url || 'https://picsum.photos/200'} alt={cart.product?.name} className="w-20 h-20 object-cover rounded-md" />
             <div className="flex-1">
               <div className="font-semibold text-base">{cart.product?.name || '-'}</div>
-              <div className="text-xs text-gray-500 mt-1">ราคาที่ชนะ: <span className="text-green-600 font-semibold">{cart.final_price_product?.toLocaleString()} บาท</span></div>
-              <div className="text-xs text-gray-500 mt-1">ชำระภายใน: <span className="text-red-500 font-semibold"><CountdownTime endTime={getPayDeadline(cart.createdAt)} /></span></div>
+              <div className="text-xs text-gray-500 mt-1">Winning Price: <span className="text-green-600 font-semibold">{cart.final_price_product?.toLocaleString()} Baht</span></div>
+              <div className="text-xs text-gray-500 mt-1">Pay within: <span className="text-red-500 font-semibold"><CountdownTime endTime={getPayDeadline(cart.createdAt)} /></span></div>
             </div>
           </div>
-        )) : <div className="text-gray-400">ไม่มีรายการ cart</div>}
-        {/* ปุ่มชำระเงิน (mobile) */}
+        )) : <div className="text-gray-400">No cart items</div>}
+        {/* Payment button (mobile) */}
         <div className="block md:hidden mt-4">
           <button
             className="w-full bg-green-600 text-white py-2 rounded font-bold disabled:bg-gray-300"
             disabled={selected.length === 0}
-            onClick={handlePay}
+            onClick={() => {
+              if (selected.length === 0) {
+                toast.info('Please select at least one item to pay.');
+                return;
+              }
+              handlePay();
+            }}
           >
-            ดำเนินการชำระเงิน
+            Proceed to Payment
           </button>
         </div>
       </div>
-      {/* col2: กฎและปุ่มชำระ */}
+      {/* col2: Rules and payment button */}
       <div className="w-1/4 bg-gray-50 rounded-lg shadow p-4 flex flex-col justify-between min-h-[300px]">
         <div>
-          <h3 className="font-bold text-base mb-2">ข้อควรทราบ</h3>
+          <h3 className="font-bold text-base mb-2">Please Note</h3>
           <ul className="text-xs text-gray-700 list-disc pl-4 mb-4">
-            <li>กรุณาชำระเงินภายใน 24 ชั่วโมงหลังชนะประมูล</li>
-            <li>หากไม่ชำระเงินตามกำหนด คุณจะถูกระงับสิทธิ์การประมูลชั่วคราว</li>
-            <li>หากมีข้อสงสัย กรุณาติดต่อฝ่ายบริการลูกค้า</li>
+            <li>Please pay within 24 hours after winning the auction.</li>
+            <li>If you do not pay on time, your bidding rights will be temporarily suspended.</li>
+            <li>If you have any questions, please contact customer service.</li>
           </ul>
         </div>
         <button
           className="w-full bg-green-600 text-white py-2 rounded font-bold disabled:bg-gray-300 mt-4"
           disabled={selected.length === 0}
-          onClick={handlePay}
+          onClick={() => {
+            if (selected.length === 0) {
+              toast.info('Please select at least one item to pay.');
+              return;
+            }
+            handlePay();
+          }}
         >
-          ดำเนินการชำระเงิน
+          Proceed to Payment
         </button>
       </div>
     </div>

@@ -8,6 +8,7 @@ const Login = () => {
   // Javascript
   const navigate = useNavigate();
   const actionLogin = useAppStore((state) => state.actionLogin);
+  const setLoading = useAppStore((state) => state.setLoading);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -21,7 +22,9 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
+      
       const res = await actionLogin(form);
       const role = res.data.payload.role;
       roleRedirect(role);
@@ -30,6 +33,9 @@ const Login = () => {
       console.log(err);
       const errMsg = err.response?.data?.message;
       toast.error(errMsg);
+    }
+    finally {
+      setLoading(false);
     }
   };
 

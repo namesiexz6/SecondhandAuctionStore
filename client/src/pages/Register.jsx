@@ -5,25 +5,27 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import zxcvbn from "zxcvbn";
 import { useForm } from "react-hook-form";
-import  { register } from "../api/auth";
+import { register } from "../api/auth";
+import useAppStore from "../store/AppStore";
 
 const registerAPI = register;
 
 const registerSchema = z
   .object({
-    name: z.string().min(1, { message: "กรุณากรอกชื่อ" }), // เพิ่ม name
+    name: z.string().min(1, { message: "Please enter your name" }), // Added name
     email: z.string().email({ message: "Invalid email!!!" }),
-    password: z.string().min(8, { message: "Password ต้องมากกว่า 8 ตัวอักษร" }),
+    password: z.string().min(8, { message: "Password must be at least 8 characters long" }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Password มันบ่ตรงกันเด้อ",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
 const Register = () => {
 
   // Javascript
+  const setLoading = useAppStore((state) => state.setLoading);
   
   const [passwordScore, setPasswordScore] = useState(0);
 
@@ -42,7 +44,9 @@ const Register = () => {
     return zxcvbn(password ? password : "").score;
   };
   useEffect(() => {
+    setLoading(true);
     setPasswordScore(validatePassword());
+    setLoading(false);
   }, [watch("password")]);
 
   const onSubmit = async (data) => {
@@ -51,7 +55,7 @@ const Register = () => {
       // console.log(data);
       const res = await registerAPI(data);
       toast.success(res.data.message);
-      reset(); // เคลียร์ฟอร์มหลังสำเร็จ
+      reset(); // Clear form after success
     } catch (err) {
       const errMsg = err.response?.data?.message;
       toast.error(errMsg);
@@ -59,9 +63,7 @@ const Register = () => {
     }
   };
 
-  // const tam = Array.from(Array(5))
-  // console.log(tam)
-  console.log(passwordScore);
+
   return (
     <div
       className="min-h-screen flex 
@@ -79,8 +81,7 @@ const Register = () => {
                 className={`border w-full px-3 py-2 rounded
                 focus:outline-none focus:ring-2 focus:ring-blue-500
                 focus:border-transparent
-                ${errors.name && "border-red-500"}
-                `}
+                ${errors.name && "border-red-500"}`}
               />
               {errors.name && (
                 <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -93,8 +94,7 @@ const Register = () => {
                 className={`border w-full px-3 py-2 rounded
             focus:outline-none focus:ring-2 focus:ring-blue-500
             focus:border-transparent
-            ${errors.email && "border-red-500"}
-            `}
+            ${errors.email && "border-red-500"}`}
               />
               {errors.email && (
                 <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -109,8 +109,7 @@ const Register = () => {
                 className={`border w-full px-3 py-2 rounded
               focus:outline-none focus:ring-2 focus:ring-blue-500
               focus:border-transparent
-              ${errors.password && "border-red-500"}
-              `}
+              ${errors.password && "border-red-500"}`}
               />
 
               {errors.password && (
@@ -129,8 +128,7 @@ const Register = () => {
                             : passwordScore < 4
                             ? "bg-yellow-500"
                             : "bg-green-500"
-                        }
-              `}
+                        }`}
                       ></div>
                     </span>
                   ))}
@@ -145,8 +143,7 @@ const Register = () => {
               className={`border w-full px-3 py-2 rounded
                 focus:outline-none focus:ring-2 focus:ring-blue-500
                 focus:border-transparent
-                ${errors.confirmPassword && "border-red-500"}
-                `}
+                ${errors.confirmPassword && "border-red-500"}`}
                 />
 
 
@@ -158,8 +155,8 @@ const Register = () => {
             <button 
             className="bg-blue-500 rounded-md
              w-full text-white font-bold py-2 shadow
-             hover:bg-blue-700
-             ">
+             hover:bg-blue-700"
+            >
               Register
               </button>
 

@@ -2,48 +2,69 @@ import React from 'react'
 import CountdownTime from '../Product/CountdownTime';
 import { Navigate, useParams } from 'react-router-dom';
 import useAppStore from '../../store/AppStore';
+import { io } from 'socket.io-client';
+import { toast } from 'react-toastify';
 
 const ViewProduct = () => {
   const { id } = useParams();
   const actionBid = useAppStore((state) => state.actionAddAuctioneerBoard);
+  const getAuctioneerBoard = useAppStore((state) => state.actionGetAuctioneerBoardByProductId);
   const user = useAppStore((state) => state.user);
   const token = useAppStore((state) => state.token);
   const products = useAppStore((state) => state.products || []);
-  //const auctioneerBoards = useAppStore((state) => state.auctioneerBoards || []); // ดึง auctioneerBoards จาก store
-  const product = products.find((p) => Number(p.id) === Number(id)); // Changed String(id) to Number(id)
-  //const getAuctioneerBoard = useAppStore((state) => state.getAuctioneerBoard);
-
+  const product = products.find((p) => Number(p.id) === Number(id)); 
+  const auctioneerBoard = useAppStore((state) => state.auctioneerBoards || []);
+  const setAuctioneerBoard = useAppStore((state) => state.setAuctioneerBoards);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
   const [showTimeUp, setShowTimeUp] = React.useState(false);
-  const isAuctionEnded = new Date() > new Date(product.end_date);
-  // Fallback ถ้าไม่เจอ product
+  const isAuctionEnded = new Date() > new Date(auctioneerBoard.length > 0 ? auctioneerBoard[0].product.end_date : product.end_date);
+  
+  const [bidAmount, setBidAmount] = React.useState(0);
+  const [mainImgIdx, setMainImgIdx] = React.useState(0);
+  
+  const images = product.images?.map(img => img.url) || [];
+  const auctionEnd = auctioneerBoard.length > 0 ? auctioneerBoard[0].product.end_date : product.end_date;
+ 
+  const currentPrice = auctioneerBoard.length > 0
+    ? auctioneerBoard[0].price_offer
+    : product.starting_price;
 
-  // React.useEffect(() => {
-  //   if (product) {
-  //     getAuctioneerBoard(product.id); // ดึง auctioneerBoards ของสินค้านี้
-  //   }
-  // }, []);
+  
+  const minBid = product.min_bid_price || 0;  
+  const startPrice = product.starting_price;
+  
+  // ...existing code...
+const socket = io('http://localhost:5000');
+
+React.useEffect(() => {
+  if (!product?.id) return;
+  socket.emit('joinProductRoom', product.id);
+
+  socket.on('auctioneerBoardUpdate', (data) => {
+    setAuctioneerBoard(data);
+  });
+
+  return () => {
+    socket.emit('leaveProductRoom', product.id);
+    socket.off('auctioneerBoardUpdate');
+  };
+}, [product.id]);
+
+  React.useEffect(() => {
+    if (product) {
+      getAuctioneerBoard(product.id); 
+    }  
+  }, [product.id]);  
+  
+  React.useEffect(() => {
+    setBidAmount(currentPrice + minBid);
+  }, [currentPrice, minBid]);
 
   if (!product) {
-    return <div className="text-center text-red-500 py-10">ไม่พบสินค้านี้</div>;
-  }
+    return <div className="text-center text-red-500 py-10">Product not found</div>;
+  }    
 
-  // เตรียมข้อมูล
-  const images = product.images?.map(img => img.url) || [];
-  const auctionEnd = product.end_date;
- 
-  const currentPrice = product.auctioneerBoards.length > 0
-    ? product.auctioneerBoards[0].price_offer
-    : product.starting_price;
-  const minBid = product.min_bid_price || 0;
-  const startPrice = product.starting_price;
-
-
-  const [bidAmount, setBidAmount] = React.useState(currentPrice + minBid);
-  const [mainImgIdx, setMainImgIdx] = React.useState(0);
-
-  console.log('Bid:', bidAmount);
 
   const handleBidChange = (delta) => {
     setBidAmount((prev) => {
@@ -64,7 +85,7 @@ const ViewProduct = () => {
     e.preventDefault();
     try {
       if (!user || !token) {
-        alert('Please log in to place a bid.');
+        toast.info('Please log in to place a bid.');
         setRedirect(true);
         return;
 
@@ -76,15 +97,16 @@ const ViewProduct = () => {
 
       console.log('Bid:', { user_id, product_id, price_offer });
       if (price_offer < currentPrice + minBid) {
-        alert(`Bid amount must be at least ${currentPrice + minBid} ฿`);
+        toast.error(`Bid amount must be at least ${currentPrice + minBid} ฿`);
         return;
       }
 
       actionBid({ product_id, user_id, price_offer }, token);
       setBidAmount(price_offer + minBid);
+      toast.success('Your bid has been placed successfully!');
     } catch (error) {
       console.error('Error placing bid:', error);
-      alert('Failed to place bid. Please try again later.');
+      toast.error('Failed to place bid. Please try again later.');
     }
   };
 
@@ -161,14 +183,14 @@ const ViewProduct = () => {
               {showTimeUp && (
                 <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50">
                   <div className="bg-white rounded-lg p-6 shadow-lg max-w-xs w-full">
-                    <div className="font-bold text-lg mb-2 text-red-500">หมดเวลาประมูลแล้ว</div>
-                    <div className="mb-4">ไม่สามารถบิดได้ เนื่องจากหมดเวลาประมูล</div>
+                    <div className="font-bold text-lg mb-2 text-red-500">Auction ended</div>
+                    <div className="mb-4">You cannot bid because the auction has ended.</div>
                     <div className="flex justify-end">
                       <button
                         className="px-3 py-1 bg-blue-500 text-white rounded"
                         onClick={() => setShowTimeUp(false)}
                       >
-                        ปิด
+                        Close
                       </button>
                     </div>
                   </div>
@@ -177,14 +199,14 @@ const ViewProduct = () => {
               {showConfirm && (
                 <div className=" fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                   <div className="bg-white rounded-lg p-6 shadow-lg max-w-xs w-full">
-                    <div className="font-bold text-lg mb-2">ยืนยันการบิด</div>
-                    <div className="mb-4">คุณต้องการบิด {bidAmount != null ? bidAmount.toLocaleString() : '-'} บาท ใช่หรือไม่?</div>
+                    <div className="font-bold text-lg mb-2">Confirm your bid</div>
+                    <div className="mb-4">Do you want to bid {bidAmount != null ? bidAmount.toLocaleString() : '-'} Baht?</div>
                     <div className="flex justify-end gap-2">
                       <button
                         className="px-3 py-1 bg-gray-200 rounded"
                         onClick={() => setShowConfirm(false)}
                       >
-                        ยกเลิก
+                        Cancel
                       </button>
                       <button
                         className="px-3 py-1 bg-blue-500 text-white rounded"
@@ -193,7 +215,7 @@ const ViewProduct = () => {
                           handleBid(e);
                         }}
                       >
-                        ยืนยัน
+                        Confirm
                       </button>
                     </div>
                   </div>
@@ -206,10 +228,10 @@ const ViewProduct = () => {
             <div className="font-semibold mb-1">Current highest bid</div>
             <table className="w-full text-sm min-w-[200px]">
               <tbody>
-                {product.auctioneerBoards.map((bidder, idx) => (
+              {Array.isArray(auctioneerBoard) && auctioneerBoard.map((bidder, idx) => (
                   <tr key={idx}>
                     <td className={`pr-2 whitespace-nowrap ${idx === 0 ? 'text-yellow-500 font-bold' : ''}`}>
-                      {idx + 1}. {bidder.user.name}
+                      {idx + 1}. {bidder.user !== undefined || bidder.user !== undefined ? bidder.user.name : '-'}
                       {idx === 0 && <span className="ml-1">🏆</span>}
                     </td>
                     <td className="text-right whitespace-nowrap">{bidder.price_offer != null ? bidder.price_offer.toLocaleString() : '-'} ฿</td>

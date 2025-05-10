@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import CountdownTime from './CountdownTime'
 import useAppStore from '../../store/AppStore'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 const ListHistory = () => {
   const user = useAppStore((state) => state.user)
@@ -16,21 +17,21 @@ const ListHistory = () => {
     }
   }, [user, token, getAuctUser])
 
-  // ฟังก์ชันเช็คว่ายังประมูลอยู่หรือหมดเวลาแล้ว
+  // Function to check auction status
   const getStatus = (auctionEnd, isHighestBidder) => {
     const now = new Date();
     const end = new Date(auctionEnd);
-    if (now < end) return { label: 'กำลังร่วมประมูล', color: 'bg-yellow-100 text-yellow-800' };
-    if (isHighestBidder) return { label: 'ชนะ', color: 'bg-green-100 text-green-800' };
-    return { label: 'แพ้', color: 'bg-red-100 text-red-800' };
+    if (now < end) return { label: 'Bidding', color: 'bg-yellow-100 text-yellow-800' };
+    if (isHighestBidder) return { label: 'Won', color: 'bg-green-100 text-green-800' };
+    return { label: 'Lost', color: 'bg-red-100 text-red-800' };
   };
 
   return (
     <div className="w-full max-w-3xl mx-auto my-6">
-      <h2 className="text-xl font-bold mb-4">ประวัติการประมูลของฉัน</h2>
+      <h2 className="text-xl font-bold mb-4">My Auction History</h2>
       <div className="flex flex-col gap-4">
         {auctioneerBoards.length === 0 && (
-          <div className="text-center text-gray-500">ยังไม่มีประวัติการประมูล</div>
+          <div className="text-center text-gray-500">No auction history yet</div>
         )}
         {auctioneerBoards.map((bid) => {
           const product = bid.product || {}
@@ -39,7 +40,7 @@ const ListHistory = () => {
           const handleProductClick = (e) => {
             if (isAuctionEnded) {
               e.preventDefault();
-              alert('การประมูลจบแล้ว ไม่สามารถเข้าดูรายละเอียดสินค้าได้');
+              toast.info('The auction has ended. You cannot view product details.');
             } else {
               navigate(`/product/${product.id}`);
             }
@@ -55,7 +56,7 @@ const ListHistory = () => {
                     {product.name}
                   </button>
                   <div className="text-xs text-gray-500 mt-1">Time left: <span className="text-red-500 font-semibold"><CountdownTime endTime={product.end_date} /></span></div>
-                  <div className="text-xs text-gray-500 mt-1">Current bid: <span className="text-green-600 font-semibold">{product.auctioneerBoards && product.auctioneerBoards[0]?.price_offer ? product.auctioneerBoards[0].price_offer.toLocaleString() : '-'} บาท</span></div>
+                  <div className="text-xs text-gray-500 mt-1">Final bid: <span className="text-green-600 font-semibold">{product.auctioneerBoards && product.auctioneerBoards[0]?.price_offer ? product.auctioneerBoards[0].price_offer.toLocaleString() : '-'} บาท</span></div>
                   <div className="text-xs text-gray-500 mt-1">Your bid: <span className="font-semibold">{bid.price_offer?.toLocaleString()} บาท</span></div>
                 </div>
                 <div className="flex flex-col items-center sm:items-end">

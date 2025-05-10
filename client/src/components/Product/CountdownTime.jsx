@@ -1,11 +1,18 @@
 import React from 'react';
 
 const CountdownTime = ({ endTime, onEnd }) => {
-  const [timeLeft, setTimeLeft] = React.useState(() => {
+  const calcTimeLeft = () => {
     const end = new Date(endTime).getTime();
     const now = Date.now();
     return Math.max(0, Math.floor((end - now) / 1000));
-  });
+  };
+
+  const [timeLeft, setTimeLeft] = React.useState(calcTimeLeft);
+
+  
+  React.useEffect(() => {
+    setTimeLeft(calcTimeLeft());
+  }, [endTime]);
 
   React.useEffect(() => {
     if (timeLeft === 0) {
@@ -33,9 +40,7 @@ const CountdownTime = ({ endTime, onEnd }) => {
   };
 
   return (
-   
-      timeLeft > 0 ? formatCountdown(timeLeft) : 'หมดเวลา'
-   
+    timeLeft > 0 ? formatCountdown(timeLeft) : 'Time Up!'
   );
 };
 
