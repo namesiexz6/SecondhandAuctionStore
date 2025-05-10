@@ -36,7 +36,7 @@ const FooterUser = () => (
                 <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" style={{width: 40 }} />
                 <span>
                     Facebook<br />
-                    <span style={{ fontSize: 13, color: "#e0e0e0" }}>HadafeeSudlho</span>
+                    <span style={{ fontSize: 13, color: "#e0e0e0" }}>Hadafee Mudo</span>
                 </span>
             </a>
 
