@@ -43,14 +43,6 @@ This is a real-time auction web application for second-hand clothing, providing 
 * **node-cron** – Scheduled tasks (e.g., cart expiration checks)
 * **Other Tools**: `dotenv`, `cors`, `morgan`
 
-### Backend Scripts (from `package.json`)
-
-```json
-"postinstall": "prisma generate && prisma db push --accept-data-loss",
-"start": "node server.js",
-"dev": "nodemon server.js"
-```
-
 ---
 
 ## 🎨 Frontend Stack
