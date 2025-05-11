@@ -1,4 +1,4 @@
-![prisma-erd](https://github.com/user-attachments/assets/58a4bb72-3d2a-429a-a22b-c90f7bee7ba6)# 🧥 Second-hand Clothing Auction Web App
+# 🧥 Second-hand Clothing Auction Web App
 
 ## 📌 Project Description
 
@@ -82,7 +82,8 @@ npm run dev
 ---
 ## 📈 ER Diagram
 
-![image](https://github.com/user-attachments/assets/fa768e27-9843-4abc-a37c-822901d7f0dc)
+
+<img src="https://github.com/user-attachments/assets/58a4bb72-3d2a-429a-a22b-c90f7bee7ba6" width="100%">
 
 ---
 
