@@ -34,9 +34,8 @@ const ContentCarousel = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        className="mySwiper h-100 object-cover 
-        rounded-md mb-4 "
-      >
+        className="mySwiper max-h-100 object-cover rounded-md mb-4"
+        >
         {data?.map((item) => (
           <SwiperSlide key={item.id}>
             <img src={item.link} alt={'carousel'} />

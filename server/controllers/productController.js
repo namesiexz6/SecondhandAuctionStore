@@ -9,6 +9,32 @@ cloudinary.config({
 });
 
 
+exports.getProductById = async (req, res) => {
+    const { product_id } = req.params;
+    try {
+        const product = await prisma.product.findUnique({
+            where: { id: parseInt(product_id) },
+            include: {
+                category: true, // Include related categories
+                images: true, // Include related images
+                auctioneerBoards: {
+                    orderBy: { 
+                        price_offer: 'desc', // Order by price in descending order
+                    },
+                    include: {
+                        user: true, // Include related users
+                    },
+                    take: 5, // Limit to the latest auctioneer board
+                },
+                
+            },
+        });
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 exports.getAllProducts = async (req, res) => {
     const number = parseInt(req.query.number) || 10; // Get the page number from query params, default to 10
     try {
@@ -347,7 +373,7 @@ exports.getAuctioneerBoardByProductId = async (req, res) => {
             },
             include: {
                 user: true, // Include related users
-                product: true
+                product: true, // Include related product
             },
             take: 5, // Limit to the latest auctioneer board
         });

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/"; // Adjust the base URL as needed
+const API_URL = import.meta.env.VITE_API_URL; // Adjust the base URL as needed
 
 export const createProduct = async (productData, token) => await axios.post(`${API_URL}add-product`, productData, {
     headers: {
@@ -15,6 +15,8 @@ export const getAllProductsAdmin = async (token) => await axios.get(`${API_URL}p
         Authorization: `Bearer ${token}`,
     },
 });
+
+export const getProductById = async (productId) => await axios.get(`${API_URL}product/${productId}`, );
 
 export const getAuctioneerBoardByProductId = async (productId) => await axios.get(`${API_URL}auctioneer/${productId}`, );
 

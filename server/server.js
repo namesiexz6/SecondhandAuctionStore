@@ -31,6 +31,14 @@ io.on('connection', (socket) => {
   socket.on('leaveProductRoom', (productId) => {
     socket.leave(`product_${productId}`);
   });
+
+  socket.on('userLoggedIn', (userId) => {
+    socket.join(`user_${userId}`);
+  });
+ 
+  socket.on('userLoggedOut', (userId) => {
+    socket.leave(`user_${userId}`);
+  });
 });
 
 server.listen(5000, () => {

@@ -16,7 +16,7 @@ const Home = () => {
       <div>
         <ContentCarousel />
       </div>
-      <div>
+      <div className='w-[90%] justify-center mx-auto'>
         <h1 className="text-2xl font-bold text-center mt-4">Featured Products</h1>
         <ListProducts number={10} />
       </div>

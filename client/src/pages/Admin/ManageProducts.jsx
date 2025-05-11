@@ -16,6 +16,11 @@ const initialForm = {
   end_date: '',
 };
 
+// ✅ ฟังก์ชันที่ถูกต้องสำหรับแปลง local datetime → UTC ISO string
+const localDatetimeToUTC = (datetimeLocal) => {
+  return new Date(datetimeLocal).toISOString();
+};
+
 const ManageProducts = () => {
   const products = useAppStoreAdmin((state) => state.products) || [];
   const categories = useAppStoreAdmin((state) => state.categories) || [];
@@ -31,9 +36,9 @@ const ManageProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState(initialForm);
   const [editId, setEditId] = useState(null);
-  const [images, setImages] = useState([]); // สำหรับไฟล์ใหม่
-  const [previewImages, setPreviewImages] = useState([]); // สำหรับ preview
-  const [existingImages, setExistingImages] = useState([]); // สำหรับแก้ไขสินค้า
+  const [images, setImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
 
   useEffect(() => {
     actionGetAllProductsAdmin(token);
@@ -85,7 +90,7 @@ const ManageProducts = () => {
 
   const handleDelete = async (product) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      await actionDeleteProductImage(product.id, token); // Delete related images
+      await actionDeleteProductImage(product.id, token);
       await actionDeleteProduct(product.id, token);
       setExistingImages([]);
       toast.success('Product deleted successfully');
@@ -98,16 +103,24 @@ const ManageProducts = () => {
       toast.error('Please fill in all required fields');
       return;
     }
+
+    // ✅ แปลงเวลาจาก local (input) ให้เป็น UTC ISO string
+    const formToSend = {
+      ...form,
+      start_date: localDatetimeToUTC(form.start_date),
+      end_date: localDatetimeToUTC(form.end_date),
+    };
+
     let productId = editId;
     if (editId) {
-      await actionUpdateProduct(editId, form, token);
+      await actionUpdateProduct(editId, formToSend, token);
       toast.success('Product updated successfully');
     } else {
-      const res = await actionCreateProduct(form, token);
-      productId = res.data.id; // รองรับทั้งแบบส่ง id ตรง/ใน product
+      const res = await actionCreateProduct(formToSend, token);
+      productId = res.data.id;
       toast.success('Product created successfully');
     }
-    // อัปโหลดรูป (ถ้ามี)
+
     if (images.length > 0 && productId) {
       const readerPromises = images.map(file => {
         return new Promise((resolve, reject) => {
@@ -118,9 +131,10 @@ const ManageProducts = () => {
         });
       });
       const base64Images = await Promise.all(readerPromises);
-      await actionAddProductImage(productId, { FileImage: base64Images }, token); 
+      await actionAddProductImage(productId, { FileImage: base64Images }, token);
       toast.success('Images uploaded successfully');
     }
+
     setShowForm(false);
     setEditId(null);
     setForm(initialForm);
@@ -128,6 +142,8 @@ const ManageProducts = () => {
     setPreviewImages([]);
     setExistingImages([]);
   };
+
+
 
   return (
     <div className="max-w-full mx-auto my-10 bg-white p-6 rounded-xl shadow-lg">

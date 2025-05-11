@@ -48,42 +48,42 @@ const SearchSidebar = ({ onMobileSubmit }) => {
     };
 
     return (
-        <form className="p-4 bg-white rounded shadow w-full" onSubmit={handleSubmit}>
-            <h2 className="text-lg font-semibold mb-4">Product Search</h2>
+        <form className="p-4 bg-white rounded shadow w-full text-sm md:text-base" onSubmit={handleSubmit}>
+            <h2 className="text-base md:text-lg font-semibold mb-4">Product Search</h2>
             {/* Search by Text */}
             <input
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 type="text"
                 placeholder="Search for products..."
-                className="border rounded w-full mb-4 px-2 py-1"
+                className="border rounded w-full mb-4 px-2 py-1 text-xs md:text-sm lg:text-base"
             />
 
             {/* Search by Category */}
             <div className="mb-4">
-                <h3 className="font-medium mb-2">Category</h3>
+                <h3 className="font-medium mb-2 text-sm md:text-base">Category</h3>
                 {categories && categories.length > 0 ? (
                     categories.map((cat) => (
-                        <label key={cat.id} className="flex items-center mb-1">
+                        <label key={cat.id} className="flex items-center mb-1 text-xs md:text-sm lg:text-base">
                             <input
                                 type="checkbox"
                                 value={cat.id}
                                 checked={selectedCategories.includes(cat.id)}
                                 onChange={handleCategoryChange}
-                                className="mr-2"
+                                className="mr-2 w-4 h-4 md:w-5 md:h-5"
                             />
                             {cat.name}
                         </label>
                     ))
                 ) : (
-                    <div>Loading categories...</div>
+                    <div className="text-xs md:text-sm">Loading categories...</div>
                 )}
             </div>
 
             {/* Search by Price */}
             <div>
-                <h3 className="font-medium mb-2">Price Range</h3>
-                <div className="flex items-center justify-between text-sm mb-2 gap-2">
+                <h3 className="font-medium mb-2 text-sm md:text-base">Price Range</h3>
+                <div className="flex items-center justify-between text-xs md:text-sm mb-2 gap-2">
                     <input
                         type="number"
                         min={0}
@@ -93,7 +93,7 @@ const SearchSidebar = ({ onMobileSubmit }) => {
                             const val = Math.max(0, Math.min(Number(e.target.value), price[1]));
                             setPrice([val, price[1]]);
                         }}
-                        className="border rounded w-20 px-2 py-1"
+                        className="border rounded w-16 md:w-20 px-2 py-1 text-xs md:text-sm"
                     />
                     <span>—</span>
                     <input
@@ -105,7 +105,7 @@ const SearchSidebar = ({ onMobileSubmit }) => {
                             const val = Math.min(100000, Math.max(Number(e.target.value), price[0]));
                             setPrice([price[0], val]);
                         }}
-                        className="border rounded w-20 px-2 py-1 bg"
+                        className="border rounded w-16 md:w-20 px-2 py-1 text-xs md:text-sm"
                     />
                 </div>
                 <Slider
@@ -114,11 +114,10 @@ const SearchSidebar = ({ onMobileSubmit }) => {
                     max={100000}
                     value={price}
                     onChange={handlePriceChange}
-
                 />
             </div>
             
-            <button type="submit" className="mt-4 w-full py-2 bg-blue-700 hover:bg-blue-800 text-white rounded font-semibold">Search</button>
+            <button type="submit" className="mt-4 w-full py-2 bg-blue-700 hover:bg-blue-800 text-white rounded font-semibold text-sm md:text-base">Search</button>
         </form>
     );
 };

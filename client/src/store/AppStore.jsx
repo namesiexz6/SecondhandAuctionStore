@@ -3,9 +3,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import {login, currentUser} from "../api/auth";
 import {updateUser} from "../api/user";
 import { getAllCategories } from "../api/category";
-import { getAllProducts, filterSearchProduct, addAuctioneerBoard, getAuctUser, updateProduct, getAuctioneerBoardByProductId} from "../api/product";
+import { getAllProducts, getProductById, filterSearchProduct, addAuctioneerBoard, getAuctUser, updateProduct, getAuctioneerBoardByProductId} from "../api/product";
 import { getCart } from "../api/cart";
 import { getOrderByUser, createOrder } from "../api/order";
+
 
 
 
@@ -18,11 +19,12 @@ const AppStore = (set) => ({
     orders: [],
     auctioneerBoards: [],
     cartsForPayment: [],
-    
+
     loading : false,
     setLoading: (loading) => set({ loading }),
 
     setAuctioneerBoards: (boards) => set({ auctioneerBoards: boards }),
+    setCarts: (carts) => set({ carts }),
 
     logout: () => {
         set({ 
@@ -77,6 +79,16 @@ const AppStore = (set) => ({
             set({ loading: false });
         }
     },
+    actionGetProductById: async (productId) => {
+        set({ loading: true });
+        try {
+            const res = await getProductById(productId);
+            set({ products: [res.data] });
+        } finally {
+            set({ loading: false });
+        }
+    },
+
     actionGetCartByUser: async (userId, token) => {
         set({ loading: true });
         try {
@@ -155,7 +167,7 @@ const AppStore = (set) => ({
         set({ loading: true });
         try {
             const res = await createOrder(form, token);
-            await getOrderByUser(res.user_id, token).then((res) => {
+            await getOrderByUser(res.data.user_id, token).then((res) => {
                 set({ orders: res.data.order });
             })
             .catch((err) => {

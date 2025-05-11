@@ -52,7 +52,7 @@ const Payment = () => {
     };
 
     return (
-        <div className='w-full p-4 pb-16'>
+        <div className='w-full p-4 pb-16 min-h-screen'>
             <div>
                 <UserAdress />
             </div>

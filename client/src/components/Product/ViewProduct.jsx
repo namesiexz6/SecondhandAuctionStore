@@ -9,61 +9,69 @@ const ViewProduct = () => {
   const { id } = useParams();
   const actionBid = useAppStore((state) => state.actionAddAuctioneerBoard);
   const getAuctioneerBoard = useAppStore((state) => state.actionGetAuctioneerBoardByProductId);
+  const getProduct = useAppStore((state) => state.actionGetProductById);
   const user = useAppStore((state) => state.user);
   const token = useAppStore((state) => state.token);
   const products = useAppStore((state) => state.products || []);
-  const product = products.find((p) => Number(p.id) === Number(id)); 
+  const product = products.find((p) => Number(p.id) === Number(id));
   const auctioneerBoard = useAppStore((state) => state.auctioneerBoards || []);
   const setAuctioneerBoard = useAppStore((state) => state.setAuctioneerBoards);
   const [showConfirm, setShowConfirm] = React.useState(false);
   const [redirect, setRedirect] = React.useState(false);
   const [showTimeUp, setShowTimeUp] = React.useState(false);
-  const isAuctionEnded = new Date() > new Date(auctioneerBoard.length > 0 ? auctioneerBoard[0].product.end_date : product.end_date);
   
   const [bidAmount, setBidAmount] = React.useState(0);
   const [mainImgIdx, setMainImgIdx] = React.useState(0);
   
-  const images = product.images?.map(img => img.url) || [];
-  const auctionEnd = auctioneerBoard.length > 0 ? auctioneerBoard[0].product.end_date : product.end_date;
- 
-  const currentPrice = auctioneerBoard.length > 0
-    ? auctioneerBoard[0].price_offer
-    : product.starting_price;
-
   
-  const minBid = product.min_bid_price || 0;  
-  const startPrice = product.starting_price;
   
+  React.useEffect(() => {
+    if (!product && id) {
+      getProduct(Number(id));
+    }
+  }, [product, id, getProduct]);
   // ...existing code...
-const socket = io('http://localhost:5000');
-
-React.useEffect(() => {
-  if (!product?.id) return;
-  socket.emit('joinProductRoom', product.id);
-
-  socket.on('auctioneerBoardUpdate', (data) => {
-    setAuctioneerBoard(data);
-  });
-
-  return () => {
-    socket.emit('leaveProductRoom', product.id);
-    socket.off('auctioneerBoardUpdate');
-  };
-}, [product.id]);
-
+  React.useEffect(() => {
+    if (!product?.id) return;
+    // สร้าง socket เฉพาะใน effect
+    const socket = io(import.meta.env.VITE_SOCKET_URL, { transports: ['websocket', 'polling'] });
+    socket.emit('joinProductRoom', product.id);
+    
+    socket.on('auctioneerBoardUpdate', (data) => {
+      setAuctioneerBoard(data);
+    });
+    
+    return () => {
+      socket.emit('leaveProductRoom', product.id);
+      socket.off('auctioneerBoardUpdate');
+      socket.disconnect(); // cleanup
+    };
+  }, [product?.id, setAuctioneerBoard]);
+  
   React.useEffect(() => {
     if (product) {
-      getAuctioneerBoard(product.id); 
-    }  
-  }, [product.id]);  
+      getAuctioneerBoard(product.id);
+    }
+  }, [product?.id]);
   
+  const currentPrice = auctioneerBoard.length > 0
+    ? auctioneerBoard[0].price_offer
+    : product?.starting_price || 0;
+
+  const minBid = product?.min_bid_price || 0;
+
   React.useEffect(() => {
     setBidAmount(currentPrice + minBid);
   }, [currentPrice, minBid]);
-
+  
   if (!product) {
     return <div className="text-center text-red-500 py-10">Product not found</div>;
-  }    
+  }
+  const isAuctionEnded = new Date() > new Date(auctioneerBoard.length > 0 ? auctioneerBoard[0].product.end_date : product.end_date);
+  const images = product.images?.map(img => img.url) || [];
+  const auctionEnd = auctioneerBoard.length > 0 ? auctioneerBoard[0].product.end_date : product.end_date;
+
+  const startPrice = product.starting_price;
 
 
   const handleBidChange = (delta) => {
@@ -80,7 +88,7 @@ React.useEffect(() => {
     if (val < currentPrice + minBid) val = currentPrice + minBid;
     setBidAmount(val);
   };
-
+  
   const handleBid = (e) => {
     e.preventDefault();
     try {
@@ -88,9 +96,9 @@ React.useEffect(() => {
         toast.info('Please log in to place a bid.');
         setRedirect(true);
         return;
-
+        
       }
-
+      
       const user_id = user.id;
       const product_id = Number(id);
       const price_offer = bidAmount;
@@ -158,7 +166,7 @@ React.useEffect(() => {
                 <button type="button" className="px-2 py-1 bg-gray-200 rounded" onClick={() => handleBidChange(-minBid)} disabled={isAuctionEnded}>-</button>
                 <input
                   type="number"
-                  min={currentPrice + minBid}
+                  min={0}
                   value={bidAmount}
                   onChange={handleInputChange}
                   className="w-20 px-2 py-1 border rounded text-right"
@@ -228,7 +236,7 @@ React.useEffect(() => {
             <div className="font-semibold mb-1">Current highest bid</div>
             <table className="w-full text-sm min-w-[200px]">
               <tbody>
-              {Array.isArray(auctioneerBoard) && auctioneerBoard.map((bidder, idx) => (
+                {Array.isArray(auctioneerBoard) && auctioneerBoard.map((bidder, idx) => (
                   <tr key={idx}>
                     <td className={`pr-2 whitespace-nowrap ${idx === 0 ? 'text-yellow-500 font-bold' : ''}`}>
                       {idx + 1}. {bidder.user !== undefined || bidder.user !== undefined ? bidder.user.name : '-'}
@@ -247,10 +255,10 @@ React.useEffect(() => {
         <div className="font-semibold text-lg mb-4 border-b border-red-200 pb-2 flex items-center gap-2">
           <span className="text-red-500 text-2xl">📝</span> Product Details
         </div>
-          <div className='ml-4 mb-4'>
-            <div className="text-gray-500 text-xs mb-1">Description</div>
-            <p className="ml-2 text-gray-800 break-words mb-2 whitespace-pre-line">{product.description || '-'}</p>
-          </div>
+        <div className='ml-4 mb-4'>
+          <div className="text-gray-500 text-xs mb-1">Description</div>
+          <p className="ml-2 text-gray-800 break-words mb-2 whitespace-pre-line">{product.description || '-'}</p>
+        </div>
         <div className="ml-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <div className="text-gray-500 text-xs mb-1">Size</div>

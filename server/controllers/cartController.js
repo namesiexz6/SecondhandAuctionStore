@@ -15,6 +15,7 @@ exports.getCart = async (req, res) => {
 
             },
         });
+
         res.json(cart);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -31,7 +32,7 @@ exports.addCart = async (req, res) => {
                 user_id: parseInt(user_id),
                 product_id: parseInt(product_id),
                 final_price_product: parseFloat(final_price_product),
-                due_date: duedate,
+                dueDate: duedate,
                 cartprice: parseFloat(final_price_product),
             },
         });
@@ -69,9 +70,21 @@ async function autoAddCartForExpiredAuctionsCron() {
                     cartprice: topBid.price_offer
                 }
             });
+            const cartItems = await prisma.cart.findMany({
+                where: {
+                    user_id: topBid.user_id
+                },include: {
+                    product: {
+                        include: {
+                            images: true,
+                        },
+                    },
+                }
+            });
+
+            const {io} = require('../server');
+            io.to(`user_${topBid.user_id}`).emit('cartUpdated', { message: 'You won the auction, The item has been added to your cart', cartItems });
         }
-        // log สำหรับ debug
-        //console.log('Auto add cart cron job completed');
     } catch (error) {
         console.error('Auto add cart cron job error:', error.message);
     }

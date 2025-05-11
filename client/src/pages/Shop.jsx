@@ -16,9 +16,9 @@ const Shop = () => {
 
   return (
     <>
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col lg:flex-row'>
         {/* Mobile Search Carousel Button */}
-        <div className='block md:hidden w-full p-2 bg-gray-100'>
+        <div className='block lg:hidden w-full p-2 bg-gray-100'>
           <button
             className='w-full py-2 px-4 bg-blue-500 text-white rounded mb-2 font-semibold'
             onClick={() => setShowMobileSearch((v) => !v)}
@@ -33,17 +33,17 @@ const Shop = () => {
         </div>
 
         {/* SearchBar (Sidebar) */}
-        <div className='hidden md:block w-1/4 p-4 bg-gray-100 h-screen'>
+        <div className='hidden lg:block lg:w-1/4 p-4 bg-gray-100 min-h-screen'>
           <SearchProducts />
         </div>
 
         {/* Product */}
-        <div className='w-full md:w-3/4'>
+        <div className='w-full lg:w-3/4'>
           <p className='text-2xl font-bold my-4 ml-4'>All Products</p>
           <ListProducts number={numberOfProducts} />
           {products.length > 20 && (
             <div className='flex justify-center'>
-              <button className='py-2 px-4 bg-gray-300 text-white rounded mt-4 mx-4 hover:bg-gray-400' onClick={() => setNumberOfProducts((prev) => prev + 10)}>Show More Products</button>
+              <button className='py-2 px-4 bg-gray-300 text-white rounded mt-4 mx-1 hover:bg-gray-400' onClick={() => setNumberOfProducts((prev) => prev + 10)}>Show More Products</button>
             </div>
           )}
         </div>

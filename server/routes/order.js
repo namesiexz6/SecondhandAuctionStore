@@ -3,7 +3,7 @@ const { addOrder, getAllOrders, getOrderByUser, updateOrderStatus, deleteOrder }
 const { checkLogin, checkAdmin} = require('../middlewares/auth');
 const router = express.Router();
 
-router.post('/add-order', checkLogin, checkAdmin, addOrder);
+router.post('/add-order', checkLogin, addOrder);
 
 router.get('/get-all-orders', checkLogin, checkAdmin, getAllOrders);
 

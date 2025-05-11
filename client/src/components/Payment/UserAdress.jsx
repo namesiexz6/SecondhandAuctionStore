@@ -117,9 +117,9 @@ const UserAdress = () => {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-bold">Shipping Address</h2>
         {address ? (
-          <button className="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded" onClick={handleEdit}>Edit</button>
+          <button className="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-xs md:text-sm" onClick={handleEdit}>Edit</button>
         ) : (
-          <button className="px-4 py-1 bg-green-500 hover:bg-green-600 text-white rounded" onClick={() => setShowForm(true)}>+ Add Address</button>
+          <button className="px-4 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs md:text-sm" onClick={() => setShowForm(true)}>+ Add Address</button>
         )}
       </div>
       {address && (
