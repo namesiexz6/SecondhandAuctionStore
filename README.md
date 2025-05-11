@@ -36,3 +36,22 @@
     <td><img src="https://github.com/user-attachments/assets/240671a8-d8d0-48c6-8af5-a351092cd6b4" width="100%"></td>
   </tr>
 </table>
+
+<table>
+<tr>
+    <th align="center">Desktop</th>
+    </tr>
+    <tr>
+    <td><img src="https://github.com/user-attachments/assets/9fe7eef1-e361-4d0d-a27f-e03257f67f7c" width="100%"></td>
+  </tr>
+    <tr>
+    <td><img src="https://github.com/user-attachments/assets/021949bf-bc8e-4e86-9f04-9e0c874493a8" width="100%"></td>
+  </tr>
+        <tr>
+    <td><img src="https://github.com/user-attachments/assets/e59f6b35-1515-418c-9239-84cded3973db" width="100%"></td>
+  </tr>
+    <tr>
+    <td><img src="image](https://github.com/user-attachments/assets/ea6b68e9-059d-4ce5-bfce-d94d01f37736" width="100%"></td>
+  </tr>
+
+
