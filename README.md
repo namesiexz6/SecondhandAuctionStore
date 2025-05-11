@@ -81,15 +81,13 @@ npm run dev
 
 ---
 
-## 📄 License
+## 📈 Responsive Design Showcase
 
-This project is licensed under ISC.
 
 ---
 
-Feel free to contribute or raise an issue if you encounter bugs or want to suggest features!
 
-
+##Client Site
 
 <table>
     <tr>
@@ -130,6 +128,11 @@ Feel free to contribute or raise an issue if you encounter bugs or want to sugge
   </tr>
 </table>
 
+
+---
+
+##Client Site
+
 <table>
 <tr>
     <th align="center">Desktop</th>
@@ -149,6 +152,8 @@ Feel free to contribute or raise an issue if you encounter bugs or want to sugge
       <tr>
     <td><img src="https://github.com/user-attachments/assets/e3f9ed41-f932-4383-8063-24ad2d1cba97" width="100%"></td>
   </tr>
+</table>
 
+---
 
 
