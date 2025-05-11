@@ -1,4 +1,8 @@
 <table>
+    <tr>
+    <th align="center">Desktop</th>
+    <th align="center">Mobile</th>
+  </tr>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/417d79af-a258-4cea-b7fe-3aba23d59528" width="100%"></td>
     <td><img src="https://github.com/user-attachments/assets/9689b2fd-02cb-40ac-9ec5-fad3bdb83809" width="100%"></td>
