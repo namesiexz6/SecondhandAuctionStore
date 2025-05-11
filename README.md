@@ -1,3 +1,104 @@
+# 🧥 Second-hand Clothing Auction Web App
+
+## 📌 Project Description
+
+This is a real-time auction web application for second-hand clothing, providing an engaging and fair bidding experience for users. It allows browsing without login, but bidding requires authentication to ensure integrity and accountability.
+
+---
+
+## ✅ Key Features
+
+1. **Guest Browsing**
+
+   * Users can view auction items without logging in.
+
+2. **Login Required for Bidding**
+
+   * Only authenticated users can participate in auctions.
+
+3. **Real-time Bidding with Auto Time Extension**
+
+   * The highest bidder at the end of the timer wins.
+   * If a bid is placed within the final minute, the timer resets to 1 minute from the current time to allow continued bidding.
+
+4. **Auto-add to Cart**
+
+   * The winning item is automatically added to the winner's cart within 30 seconds after auction ends.
+
+5. **24-hour Payment Window**
+
+   * Users must complete payment within 24 hours once the item is in the cart.
+   * Failure to pay in time may result in penalties, such as account suspension.
+
+---
+
+## ⚙️ Backend Stack
+
+* **Express.js** – Backend framework
+* **Prisma ORM** – Database management
+* **Socket.IO** – Real-time bidding support
+* **JWT (jsonwebtoken)** – Secure authentication
+* **bcrypt / bcryptjs** – Password hashing
+* **Cloudinary** – Image upload and management
+* **node-cron** – Scheduled tasks (e.g., cart expiration checks)
+* **Other Tools**: `dotenv`, `cors`, `morgan`
+
+### Backend Scripts (from `package.json`)
+
+```json
+"postinstall": "prisma generate && prisma db push --accept-data-loss",
+"start": "node server.js",
+"dev": "nodemon server.js"
+```
+
+---
+
+## 🎨 Frontend Stack
+
+* **React.js + Vite** – Fast, modern UI
+* **TailwindCSS** – Responsive, utility-first styling
+* **React Router v7** – Routing and navigation
+* **Zustand** – Lightweight state management
+* **React Hook Form + Zod** – Form validation and input handling
+* **Socket.IO Client** – Real-time updates
+* **UI Enhancements**: `react-toastify`, `swiper`, `rc-slider`
+
+---
+
+## 🔐 Security
+
+* JWT-based session management
+* Hashed passwords stored securely
+* Route protection for sensitive actions
+
+---
+
+## 🧪 Getting Started
+
+```bash
+# Backend
+cd server
+npm install
+npm run dev
+
+# Frontend
+cd ../client
+npm install
+npm run dev
+```
+
+---
+
+## 📄 License
+
+This project is licensed under ISC.
+
+---
+
+Feel free to contribute or raise an issue if you encounter bugs or want to suggest features!
+
+
+
 <table>
     <tr>
     <th align="center">Desktop</th>
