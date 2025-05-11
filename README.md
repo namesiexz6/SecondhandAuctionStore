@@ -80,7 +80,7 @@ npm run dev
 ```
 
 ---
-## 📈 ER Diagram
+## 🗂️ ER Diagram
 
 
 <img src="https://github.com/user-attachments/assets/58a4bb72-3d2a-429a-a22b-c90f7bee7ba6" width="100%">
@@ -93,7 +93,7 @@ npm run dev
 ---
 
 
-## Client Site
+## 💻📱 Client Site
 
 <table>
     <tr>
@@ -137,7 +137,7 @@ npm run dev
 
 ---
 
-## Admin Site
+## 🛠️🔐 Admin Site
 
 <table>
 <tr>
